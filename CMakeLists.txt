@@ -64,6 +64,7 @@ if(KITE_BUILD_TESTS)
     tests/unit/functions_test.cpp
     tests/unit/recursion_test.cpp
     tests/unit/builtins_test.cpp
+    tests/unit/pipe_test.cpp
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)

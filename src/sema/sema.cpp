@@ -281,6 +281,20 @@ Type SemanticAnalyzer::check_expression(Expr& expression, SymbolTable& symbols,
     const auto value = check_expression(*pipe->value, symbols, diagnostics);
     const auto function = functions_.find(pipe->function_name);
     if (function == functions_.end()) {
+      if (pipe->function_name == "print" || pipe->function_name == "to_string" ||
+          pipe->function_name == "to_int" || pipe->function_name == "len") {
+        if (pipe->function_name == "len" && value.kind != TypeKind::String && !is_error(value)) {
+          report(diagnostics, "T005", "pipe value has incompatible type", pipe->span);
+        }
+        if (pipe->function_name == "to_int" && value.kind != TypeKind::String && !is_error(value)) {
+          report(diagnostics, "T005", "pipe value has incompatible type", pipe->span);
+        }
+        pipe->inferred_type = pipe->function_name == "print"
+                                  ? Type::unit()
+                                  : (pipe->function_name == "to_string" ? Type{TypeKind::String, nullptr}
+                                                                          : Type{TypeKind::Int, nullptr});
+        return *pipe->inferred_type;
+      }
       report(diagnostics, "S002", "unresolved name '" + pipe->function_name + "'", pipe->span);
       pipe->inferred_type = Type::error();
       return Type::error();
