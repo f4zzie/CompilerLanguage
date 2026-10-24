@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T015 — variables, assignments, and lexical scopes**
+Current task: **T016 — conditionals and while loops**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -18,10 +18,7 @@ Current task: **T015 — variables, assignments, and lexical scopes**
 | T012 | done | `feat/T012-vm-core` | `5f0cb12` | 37 default cases / 1 CTest pass |
 | T013 | done | `feat/T013-driver-and-cli` | `b71424b` (on main) | 40 default cases / 1 CTest pass |
 | T014 | done | `feat/T014-walking-skeleton` | `b32ea55` | 2 CTest tests pass |
-| T015 | in progress | `feat/T015-variables-and-scopes` | — | pending |
-| T013 | not started | — | — | — |
-| T014 | not started | — | — | — |
-| T015 | not started | — | — | — |
+| T015 | done | `feat/T015-variables-and-scopes` | `f4a306b` | 42 default cases / 2 CTest tests pass |
 | T016 | not started | — | — | — |
 | T017 | not started | — | — | — |
 | T018 | not started | — | — | — |
@@ -50,5 +47,5 @@ Current task: **T015 — variables, assignments, and lexical scopes**
 
 ## Next step
 
-Implement local/global variable slots, assignment, lexical shadowing, and scope-aware bytecode for
-T015.
+Implement boolean conditions, short-circuit logic, if/else jumps, and while-loop back edges for
+T016.
