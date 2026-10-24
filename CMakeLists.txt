@@ -38,6 +38,7 @@ add_library(kite_lib
   src/runtime/vm.cpp
   src/runtime/builtins.cpp
   src/driver/pipeline.cpp
+  src/driver/cli.cpp
 )
 
 target_include_directories(kite_lib PUBLIC src)
@@ -59,6 +60,7 @@ if(KITE_BUILD_TESTS)
     tests/unit/bytecode_test.cpp
     tests/unit/codegen_test.cpp
     tests/unit/vm_test.cpp
+    tests/unit/driver_test.cpp
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)

@@ -1,78 +1,123 @@
 #include "codegen/bytecode.hpp"
-#include "common/config.hpp"
+#include "codegen/code_generator.hpp"
+#include "driver/cli.hpp"
 #include "driver/pipeline.hpp"
+#include "lexer/lexer.hpp"
+#include "lexer/token_dump.hpp"
+#include "parser/ast_printer.hpp"
+#include "parser/parser.hpp"
 #include "runtime/vm.hpp"
+#include "sema/sema.hpp"
 
 #include <fstream>
 #include <iostream>
 #include <iterator>
-#include <string>
 
 namespace {
-
-void print_help() {
-  std::cout << kite::kLanguageName << " compiler (scaffold)\n"
-               "Usage: kite <command> <file.kite> [options]\n\n"
-               "Commands: run, build, check, tokens, ast, disasm\n"
-               "Options: --trace, --max-errors N, --color=auto|always|never\n";
-}
 
 int usage_error(const std::string& message) {
   std::cerr << "kite: " << message << '\n';
   return 2;
 }
 
+struct Compilation {
+  std::vector<kite::Token> tokens;
+  std::unique_ptr<kite::Program> program;
+  kite::BytecodeModule module;
+  kite::Diagnostics diagnostics;
+};
+
+Compilation compile_file(const kite::CliOptions& options, const std::string& source) {
+  kite::Diagnostics diagnostics(options.max_errors);
+  kite::Lexer lexer;
+  auto tokens = lexer.scan(options.file, source, diagnostics);
+  kite::Parser parser;
+  auto program = parser.parse(tokens, diagnostics);
+  if (program != nullptr) {
+    kite::SemanticAnalyzer analyzer;
+    analyzer.analyze(*program, diagnostics);
+  }
+  kite::BytecodeModule module;
+  if (program != nullptr && !diagnostics.has_errors()) {
+    kite::CodeGenerator generator;
+    module = generator.generate(*program, diagnostics);
+  }
+  diagnostics.sort_deterministically();
+  return Compilation{std::move(tokens), std::move(program), std::move(module), std::move(diagnostics)};
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
-  if (argc == 1 || std::string(argv[1]) == "--help") {
-    print_help();
+  const auto parsed = kite::parse_cli(argc, argv);
+  if (!parsed.options.has_value()) {
+    if (!parsed.error.empty()) {
+      return usage_error(parsed.error);
+    }
+    kite::print_help();
+    return parsed.error_code;
+  }
+  if (parsed.options->help) {
+    kite::print_help();
     return 0;
   }
-  if (argc < 3) {
-    return usage_error("expected a command and a source file");
-  }
 
-  const std::string command = argv[1];
-  const std::string file = argv[2];
-  std::ifstream input(file);
+  const auto& options = *parsed.options;
+  std::ifstream input(options.file, std::ios::binary);
   if (!input) {
-    return usage_error("cannot open source file: " + file);
+    return usage_error("cannot open source file: " + options.file);
   }
   const std::string source((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
-  kite::Pipeline pipeline;
-  const auto result = pipeline.compile(file, source);
-
-  for (const auto& diagnostic : result.diagnostics.all()) {
-    std::cerr << kite::render_diagnostic(diagnostic, source);
+  auto compilation = compile_file(options, source);
+  for (const auto& diagnostic : compilation.diagnostics.all()) {
+    if (diagnostic.severity == kite::DiagnosticSeverity::Note) {
+      std::cerr << "note: " << diagnostic.message << '\n';
+    } else {
+      std::cerr << kite::render_diagnostic(diagnostic, source);
+    }
   }
-  if (!result.success) {
+  if (compilation.diagnostics.has_errors()) {
     return 1;
   }
 
-  if (command == "tokens") {
-    std::cout << "<tokens unavailable in scaffold>\n";
+  if (options.command == "tokens") {
+    std::cout << kite::dump_tokens(compilation.tokens);
     return 0;
   }
-  if (command == "ast") {
-    std::cout << "Program{}\n";
+  if (options.command == "ast") {
+    std::cout << kite::print_ast(*compilation.program);
     return 0;
   }
-  if (command == "disasm") {
-    std::cout << kite::disassemble(result.module);
+  if (options.command == "disasm") {
+    std::cout << kite::disassemble(compilation.module);
     return 0;
   }
-  if (command == "check" || command == "build") {
+  if (options.command == "check") {
     return 0;
   }
-  if (command == "run") {
-    kite::Vm vm;
-    const auto vm_result = vm.run(result.module);
-    if (!vm_result.success) {
-      std::cerr << "runtime[" << vm_result.error->code << "]: " << vm_result.error->message << '\n';
+  if (options.command == "build") {
+    if (options.output_file.empty()) {
+      return usage_error("build requires -o FILE");
+    }
+    std::ofstream output(options.output_file, std::ios::binary);
+    if (!output) {
+      return usage_error("cannot write output file: " + options.output_file);
+    }
+    output << kite::disassemble(compilation.module);
+    return output.good() ? 0 : 4;
+  }
+  if (options.command == "run") {
+    kite::VmOptions vm_options;
+    vm_options.trace = options.trace;
+    vm_options.trace_stream = &std::cerr;
+    vm_options.output_stream = &std::cout;
+    kite::Vm vm(vm_options);
+    const auto result = vm.run(compilation.module);
+    if (!result.success) {
+      std::cerr << "runtime[" << result.error->code << "]: " << result.error->message << '\n';
       return 3;
     }
     return 0;
   }
-  return usage_error("unknown command: " + command);
+  return usage_error("unknown command: " + options.command);
 }
