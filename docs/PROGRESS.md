@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T021 — arrays, floats, and C-style for SHOULD features**
+Current task: **T022 — golden token, AST, and disassembly fixtures**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -24,8 +24,8 @@ Current task: **T021 — arrays, floats, and C-style for SHOULD features**
 | T018 | done | `feat/T018-recursion-and-returns` | `32a9140` | 51 default cases / 2 CTest tests pass |
 | T019 | done | `feat/T019-strings-and-builtins` | `c1c4aec` | 54 default cases / 2 CTest tests pass |
 | T020 | done | `feat/T020-pipe-operator` | `2eca8ce` | 56 default cases / 2 CTest tests pass |
-| T021 | in progress | `feat/T021-arrays-floats-and-for` | — | pending |
-| T022 | not started | — | — | — |
+| T021 | done | `feat/T021-arrays-floats-and-for` | `adaf3a6` | 57 default cases / 2 CTest tests pass |
+| T022 | in progress | `feat/T022-golden-test-fixtures` | — | pending |
 | T023 | not started | — | — | — |
 | T024 | not started | — | — | — |
 | T025 | not started | — | — | — |
@@ -47,4 +47,4 @@ Current task: **T021 — arrays, floats, and C-style for SHOULD features**
 
 ## Next step
 
-Implement SHOULD floats, homogeneous arrays, indexing, `len` support, and C-style `for` lowering.
+Create deterministic token, AST, and disassembly golden fixtures with an opt-in regeneration workflow.
