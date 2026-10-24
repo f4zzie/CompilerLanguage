@@ -1,12 +1,12 @@
 # Kite implementation progress
 
-Current task: **T002 — specification and architecture contract audit**
+Current task: **T003 — diagnostics and source rendering**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
 | T001 | done | `feat/T001-repo-foundations` | `86d471d` | 1 unit pass; walking gate intentionally pending |
-| T002 | in progress | `feat/T002-specification-and-adrs` | — | pending |
-| T003 | not started | — | — | — |
+| T002 | done | `feat/T002-specification-and-adrs` | `2aa662f` | 1 unit pass |
+| T003 | in progress | `feat/T003-diagnostics` | — | pending |
 | T004 | not started | — | — | — |
 | T005 | not started | — | — | — |
 | T006 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T002 — specification and architecture contract audit**
 
 ## Next step
 
-Audit the existing specification/architecture contracts for implementation gaps, then merge T002
-before starting the diagnostics and lexer work.
+Implement bounded diagnostic collection, source lookup, deterministic ordering, and caret rendering
+for T003 before starting lexer work.
