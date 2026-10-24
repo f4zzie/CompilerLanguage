@@ -38,10 +38,10 @@ class Scanner {
   }
 
   char advance() {
-    const char character = peek();
-    if (character == '\0') {
-      return character;
+    if (at_end()) {
+      return '\0';
     }
+    const char character = source_[index_];
     ++index_;
     if (character == '\n') {
       ++line_;

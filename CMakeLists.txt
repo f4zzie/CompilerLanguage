@@ -69,12 +69,16 @@ if(KITE_BUILD_TESTS)
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)
+  add_executable(kite_fuzz_smoke tests/fuzz/lexer_parser_fuzz.cpp)
+  target_include_directories(kite_fuzz_smoke PRIVATE src)
+  target_link_libraries(kite_fuzz_smoke PRIVATE kite_lib)
   add_test(NAME kite_unit_tests COMMAND kite_tests)
   add_test(NAME walking_skeleton
            COMMAND ${CMAKE_COMMAND}
                    -DKITE_EXECUTABLE=$<TARGET_FILE:kite>
                    -DKITE_SOURCE_FILE=${CMAKE_SOURCE_DIR}/examples/hello.kite
                    -P ${CMAKE_SOURCE_DIR}/tests/e2e/walking_skeleton_test.cmake)
+  add_test(NAME fuzz_lexer_parser COMMAND kite_fuzz_smoke)
   foreach(golden_command IN ITEMS tokens ast disasm)
     add_test(NAME golden_hello_${golden_command}
              COMMAND ${CMAKE_COMMAND}
