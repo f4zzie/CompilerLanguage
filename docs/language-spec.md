@@ -211,7 +211,19 @@ not MUST; it is cut before any MUST work if schedule pressure appears.
 
 Each output line is terminated by `print`.
 
-### Hello world — `examples/hello.kite`
+### Walking skeleton — `examples/hello.kite`
+
+```kite
+print(1 + 2);
+```
+
+Expected output:
+
+```text
+3
+```
+
+### Hello world — `examples/hello-world.kite`
 
 ```kite
 print("Hello, Kite!");

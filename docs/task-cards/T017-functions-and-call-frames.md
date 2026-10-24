@@ -13,4 +13,4 @@ Acceptance criteria:   1. Multiple parameters bind in order. 2. Calls return val
 Tests to write first: names and what they assert: `function_parameters`; `function_return`; `function_wrong_arity`; assert output or diagnostic.
 Edge cases to cover: zero parameters; unit return; parameter name shadowing; call inside condition; function declaration after caller.
 Out of scope:          closures, first-class function values, variadic calls.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

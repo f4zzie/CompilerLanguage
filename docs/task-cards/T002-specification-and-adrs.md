@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every reserved word has a TokenKind. 2. Operator prece
 Tests to write first: names and what they assert: `tests/spec/contract-checklist.md`; asserts grammar/operator/feature-tier consistency by checklist.
 Edge cases to cover: unit return without expression; function forward references; mutable shadowing; required semicolons; empty blocks; error cap.
 Out of scope:          implementing any compiler stage or adding unapproved language features.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

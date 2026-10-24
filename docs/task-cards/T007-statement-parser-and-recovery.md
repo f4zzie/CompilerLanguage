@@ -13,4 +13,4 @@ Acceptance criteria:   1. All grammar productions parse. 2. Parser continues aft
 Tests to write first: names and what they assert: `parser_function`; `parser_control_flow`; `parser_recovery`; assert node count and diagnostic codes.
 Edge cases to cover: missing `}`; missing `;`; `else` without `if`; return at top level; empty parameter list; nested `else if`.
 Out of scope:          symbol lookup, type rules, bytecode generation.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

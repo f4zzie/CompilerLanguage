@@ -13,4 +13,4 @@ Acceptance criteria:   1. The walking-skeleton CTest invokes the `kite` executab
 Tests to write first: names and what they assert: `tests/e2e/walking_skeleton_test.cmake`; assert the `kite` process exits 0 and stdout is exactly `3\n`.
 Edge cases to cover: parenthesized arithmetic; integer literal at EOF; expression statement discard; empty program.
 Out of scope:          loops, functions, strings, arrays, optimization.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

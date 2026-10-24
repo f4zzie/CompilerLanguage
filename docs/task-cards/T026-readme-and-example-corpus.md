@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every example has an expected output. 2. README quick 
 Tests to write first: names and what they assert: `examples_all_run`; `readme_commands`; assert corpus outputs and command exit codes.
 Edge cases to cover: source path with spaces; empty input; error examples; trace output separated from stdout; Windows PowerShell invocation.
 Out of scope:          course report prose, website hosting, generated screenshots.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

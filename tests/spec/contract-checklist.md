@@ -10,7 +10,7 @@ change and is intentionally kept as plain text so it can be checked on a clean m
 - [ ] Every compile-time error code has a message template and a negative fixture.
 - [ ] Every bytecode opcode has a stack effect, semantic description, and producer.
 - [ ] The default compiler path has no external dependency other than C++20 and doctest v2.5.3.
-- [ ] The walking-skeleton gate is the only intentionally incomplete test before T014.
+- [x] The walking-skeleton process test is part of the default CTest suite.
 
 ## Review result
 

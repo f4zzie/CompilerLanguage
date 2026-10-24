@@ -103,8 +103,9 @@ cmake --preset linux-asan
 cmake --build --preset linux-asan
 ```
 
-The current scaffold compiles, but language-stage functions are still stubs. The intentionally red
-walking-skeleton test remains until task `T014` is implemented.
+The core pipeline now compiles and runs the walking skeleton through the lexer, parser, semantic
+checker, bytecode generator, and VM. Remaining work covers the larger language feature set and
+hardening tasks.
 
 ### Run the tests
 
@@ -181,7 +182,7 @@ each implementation.
 
 ## Limitations and roadmap
 
-- The current scaffold does not execute Kite programs yet; T014 is the walking-skeleton gate.
+- The walking skeleton is implemented as a CTest end-to-end process test in T014.
 - The native-code requirement has been assumed to be absent. If the assignment changes, ADR-0002
   promotes the C-transpile backend to MUST.
 - The real assignment rubric has not been supplied; generic compiler-course criteria are mapped in

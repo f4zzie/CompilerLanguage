@@ -13,4 +13,4 @@ Acceptance criteria:   1. 1,000 deterministic random inputs complete. 2. Parser 
 Tests to write first: names and what they assert: `fuzz_lexer_parser_no_crash`; `sanitizer_smoke`; assert completion and zero sanitizer findings.
 Edge cases to cover: empty bytes; invalid UTF-8; huge token; unterminated comment; deeply nested parentheses; repeated invalid bytes.
 Out of scope:          long-running libFuzzer campaigns, performance fuzzing, security certification.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works
