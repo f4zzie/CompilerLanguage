@@ -15,6 +15,7 @@ std::unique_ptr<Program> Parser::parse(const std::vector<Token>& tokens, Diagnos
     program->span = Span{tokens.front().span.start, tokens.back().span.end};
   }
   while (!check(TokenKind::Eof)) {
+    const auto before = current_index_;
     try {
       if (match(TokenKind::Fn)) {
         auto function = parse_function_declaration();
@@ -29,6 +30,9 @@ std::unique_ptr<Program> Parser::parse(const std::vector<Token>& tokens, Diagnos
       }
     } catch (...) {
       synchronize_statement();
+    }
+    if (current_index_ == before && !check(TokenKind::Eof)) {
+      ++current_index_;
     }
   }
   return program;
@@ -267,6 +271,7 @@ StmtPtr Parser::parse_block() {
   auto block = std::make_unique<BlockStmt>();
   block->id = next_node_id_++;
   while (!check(TokenKind::RightBrace) && !check(TokenKind::Eof)) {
+    const auto before = current_index_;
     try {
       auto statement = parse_statement();
       if (statement != nullptr) {
@@ -274,6 +279,9 @@ StmtPtr Parser::parse_block() {
       }
     } catch (...) {
       synchronize_statement();
+    }
+    if (current_index_ == before && !check(TokenKind::Eof) && !check(TokenKind::RightBrace)) {
+      ++current_index_;
     }
   }
   const auto right_brace = consume(TokenKind::RightBrace, "'}'");
