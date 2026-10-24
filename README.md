@@ -175,10 +175,9 @@ docs/                 specification, architecture, decisions, plans, and task ca
 
 ## Current status
 
-The repository contains the planning documents and a compiling scaffold. The public types and
-function signatures are present, but lexer, parser, semantic analyzer, code generator, and VM
-behavior are intentionally unimplemented. `TODO(Txxx)` comments point to the task card that owns
-each implementation.
+The repository contains a working C++20 compiler pipeline, a stack VM, golden tests, end-to-end
+corpora, fuzz smoke coverage, and showcase examples. The remaining release work is evidence capture,
+documentation polish, and packaging.
 
 ## Limitations and roadmap
 
