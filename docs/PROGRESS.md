@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T018 — recursion and return-path checking**
+Current task: **T019 — strings and builtin registry**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -21,8 +21,8 @@ Current task: **T018 — recursion and return-path checking**
 | T015 | done | `feat/T015-variables-and-scopes` | `f4a306b` | 42 default cases / 2 CTest tests pass |
 | T016 | done | `feat/T016-control-flow` | `b288b1b` | 45 default cases / 2 CTest tests pass |
 | T017 | done | `feat/T017-functions-and-call-frames` | `4af1c1d` | 48 default cases / 2 CTest tests pass |
-| T018 | in progress | `feat/T018-recursion-and-returns` | — | pending |
-| T019 | not started | — | — | — |
+| T018 | done | `feat/T018-recursion-and-returns` | `32a9140` | 51 default cases / 2 CTest tests pass |
+| T019 | in progress | `feat/T019-strings-and-builtins` | — | pending |
 | T020 | not started | — | — | — |
 | T021 | not started | — | — | — |
 | T022 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T018 — recursion and return-path checking**
 
 ## Next step
 
-Implement recursive calls, nested frame restoration, return-path checks, and stack-overflow behavior
-for T018.
+Implement string values, concatenation, print/input/len/to_string/to_int builtins, and their runtime
+error behavior for T019.
