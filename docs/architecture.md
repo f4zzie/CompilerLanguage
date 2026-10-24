@@ -71,7 +71,7 @@ does not emit ANSI color unless a future `--color=always` option requests it.
 
 The AST uses `std::unique_ptr` ownership and these abstract bases: `AstNode`, `Expr`, `Stmt`, and
 `Decl`. Expressions are `LiteralExpr`, `NameExpr`, `UnaryExpr`, `BinaryExpr`, `CallExpr`,
-`IndexExpr`, and `PipeExpr`. Statements are `ExprStmt`, `LetStmt`, `AssignStmt`, `BlockStmt`,
+`IndexExpr`, `ArrayExpr`, and `PipeExpr`. Statements are `ExprStmt`, `LetStmt`, `AssignStmt`, `BlockStmt`,
 `IfStmt`, `WhileStmt`, `ForStmt`, and `ReturnStmt`. The declaration node is `FunctionDecl`.
 `Program` owns top-level declarations and statements.
 

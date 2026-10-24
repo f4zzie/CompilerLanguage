@@ -50,6 +50,7 @@ if(KITE_BUILD_TESTS)
     tests/test_main.cpp
     tests/unit/diagnostics_test.cpp
     tests/unit/lexer_test.cpp
+    tests/unit/ast_test.cpp
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)
