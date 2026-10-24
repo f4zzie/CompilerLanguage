@@ -53,6 +53,7 @@ struct BytecodeModule {
   std::vector<Constant> constants;
   std::vector<Instruction> instructions;
   std::vector<FunctionInfo> functions;
+  std::size_t global_count{0};
 };
 
 const char* opcode_name(OpCode opcode);
