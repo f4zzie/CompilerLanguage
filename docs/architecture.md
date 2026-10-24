@@ -267,6 +267,8 @@ value, `a` an address/index, and `n` an immediate operand.
 | `LOAD_GLOBAL` | slot | `S → S,v` | Push module global. | global names |
 | `STORE_GLOBAL` | slot | `S,v → S,v` | Store global. | global `let` |
 | `CALL` | function index/arity | `S,args → S,result` | Invoke function or builtin. | calls/pipe |
+| `MAKE_ARRAY` | element count | `S,e1,...,en → S,array` | Build a homogeneous runtime array. | array literals |
+| `INDEX` | none | `S,array,index → S,value` | Read a string/array element; reject invalid bounds. | index expressions |
 | `RETURN` | none | `S,v → callerS,v` | Restore caller frame. | `return` |
 | `POP` | none | `S,v → S` | Discard expression result. | expression statement |
 | `HALT` | none | `S → S` | End synthetic `__main`. | module entry |

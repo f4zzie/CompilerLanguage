@@ -44,6 +44,10 @@ const char* opcode_name(OpCode opcode) {
       return "STORE_GLOBAL";
     case OpCode::Call:
       return "CALL";
+    case OpCode::MakeArray:
+      return "MAKE_ARRAY";
+    case OpCode::Index:
+      return "INDEX";
     case OpCode::Return:
       return "RETURN";
     case OpCode::Pop:

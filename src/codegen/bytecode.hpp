@@ -29,6 +29,8 @@ enum class OpCode {
   LoadGlobal,
   StoreGlobal,
   Call,
+  MakeArray,
+  Index,
   Return,
   Pop,
   Halt,
