@@ -118,6 +118,7 @@ struct LetStmt final : Stmt {
   std::string name;
   std::optional<TypeAnnotation> annotation;
   ExprPtr initializer;
+  Type inferred_type{Type::error()};
 };
 
 struct AssignStmt final : Stmt {
