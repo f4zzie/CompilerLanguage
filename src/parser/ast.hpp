@@ -91,6 +91,10 @@ struct CallExpr final : Expr {
   std::vector<ExprPtr> arguments;
 };
 
+struct ArrayExpr final : Expr {
+  std::vector<ExprPtr> elements;
+};
+
 struct IndexExpr final : Expr {
   ExprPtr object;
   ExprPtr index;
