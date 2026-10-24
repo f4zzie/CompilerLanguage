@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T006 — Pratt expression parser**
+Current task: **T007 — statement parser and recovery**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -9,8 +9,8 @@ Current task: **T006 — Pratt expression parser**
 | T003 | done | `feat/T003-diagnostics` | `86f74b3` | 7 cases / 13 assertions; 1 CTest pass |
 | T004 | done | `feat/T004-token-model-and-lexer` | `d341459` | 11 default cases / 1 CTest pass |
 | T005 | done | `feat/T005-ast-and-printer` | `e313b89` | 13 default cases / 1 CTest pass |
-| T006 | in progress | `feat/T006-pratt-expression-parser` | — | pending |
-| T007 | not started | — | — | — |
+| T006 | done | `feat/T006-pratt-expression-parser` | `7427231` | 15 default cases / 1 CTest pass |
+| T007 | in progress | `feat/T007-statement-parser-and-recovery` | — | pending |
 | T008 | not started | — | — | — |
 | T009 | not started | — | — | — |
 | T010 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T006 — Pratt expression parser**
 
 ## Next step
 
-Implement recursive-descent expression parsing with Pratt precedence, assignment handling, and pipe
-syntax for T006.
+Implement top-level declarations, statements, blocks, control-flow grammar, and panic-mode parser
+recovery for T007.
