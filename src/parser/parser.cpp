@@ -4,10 +4,34 @@
 
 namespace kite {
 
-std::unique_ptr<Program> Parser::parse(const std::vector<Token>& /*tokens*/,
-                                       Diagnostics& /*diagnostics*/) {
-  // TODO(T007): parse declarations/statements and add panic-mode recovery.
-  return std::make_unique<Program>();
+std::unique_ptr<Program> Parser::parse(const std::vector<Token>& tokens, Diagnostics& diagnostics) {
+  tokens_ = &tokens;
+  diagnostics_ = &diagnostics;
+  current_index_ = 0;
+  next_node_id_ = 1;
+  auto program = std::make_unique<Program>();
+  program->id = 0;
+  if (!tokens.empty()) {
+    program->span = Span{tokens.front().span.start, tokens.back().span.end};
+  }
+  while (!check(TokenKind::Eof)) {
+    try {
+      if (match(TokenKind::Fn)) {
+        auto function = parse_function_declaration();
+        if (function != nullptr) {
+          program->declarations.push_back(std::move(function));
+        }
+      } else {
+        auto statement = parse_statement();
+        if (statement != nullptr) {
+          program->statements.push_back(std::move(statement));
+        }
+      }
+    } catch (...) {
+      synchronize_statement();
+    }
+  }
+  return program;
 }
 
 ExprPtr Parser::parse_expression_for_test(const std::vector<Token>& tokens,
@@ -193,6 +217,217 @@ ExprPtr Parser::parse_array_literal() {
   const auto right_bracket = consume(TokenKind::RightBracket, "']'");
   array->span = Span{left_bracket.span.start, right_bracket.span.end};
   return array;
+}
+
+std::unique_ptr<FunctionDecl> Parser::parse_function_declaration() {
+  const auto function_start = previous().span.start;
+  const auto name = consume(TokenKind::Identifier, "function name");
+  auto function = std::make_unique<FunctionDecl>();
+  function->id = next_node_id_++;
+  function->name = name.lexeme;
+  consume(TokenKind::LeftParen, "'('");
+  if (!check(TokenKind::RightParen)) {
+    do {
+      function->parameters.push_back(parse_parameter());
+    } while (match(TokenKind::Comma));
+  }
+  consume(TokenKind::RightParen, "')'");
+  consume(TokenKind::Arrow, "'->'");
+  function->return_type = parse_type_annotation();
+  auto body = parse_block();
+  function->body = std::unique_ptr<BlockStmt>(static_cast<BlockStmt*>(body.release()));
+  function->span = Span{function_start, function->body->span.end};
+  return function;
+}
+
+StmtPtr Parser::parse_statement() {
+  if (match(TokenKind::Let)) {
+    return parse_let_statement(true);
+  }
+  if (match(TokenKind::If)) {
+    return parse_if_statement();
+  }
+  if (match(TokenKind::While)) {
+    return parse_while_statement();
+  }
+  if (match(TokenKind::For)) {
+    return parse_for_statement();
+  }
+  if (match(TokenKind::Return)) {
+    return parse_return_statement();
+  }
+  if (check(TokenKind::LeftBrace)) {
+    return parse_block();
+  }
+  return parse_expression_statement(true);
+}
+
+StmtPtr Parser::parse_block() {
+  const auto left_brace = consume(TokenKind::LeftBrace, "'{'");
+  auto block = std::make_unique<BlockStmt>();
+  block->id = next_node_id_++;
+  while (!check(TokenKind::RightBrace) && !check(TokenKind::Eof)) {
+    try {
+      auto statement = parse_statement();
+      if (statement != nullptr) {
+        block->statements.push_back(std::move(statement));
+      }
+    } catch (...) {
+      synchronize_statement();
+    }
+  }
+  const auto right_brace = consume(TokenKind::RightBrace, "'}'");
+  block->span = Span{left_brace.span.start, right_brace.span.end};
+  return block;
+}
+
+StmtPtr Parser::parse_let_statement(bool require_semicolon) {
+  const auto start = previous().span.start;
+  const auto name = consume(TokenKind::Identifier, "variable name");
+  auto statement = std::make_unique<LetStmt>();
+  statement->id = next_node_id_++;
+  statement->name = name.lexeme;
+  if (match(TokenKind::Colon)) {
+    statement->annotation = parse_type_annotation();
+  }
+  consume(TokenKind::Equal, "'='");
+  statement->initializer = parse_assignment_expression();
+  const auto end = require_semicolon ? consume(TokenKind::Semicolon, "';'").span.end
+                                     : statement->initializer->span.end;
+  statement->span = Span{start, end};
+  return statement;
+}
+
+StmtPtr Parser::parse_if_statement() {
+  const auto start = previous().span.start;
+  consume(TokenKind::LeftParen, "'('");
+  auto statement = std::make_unique<IfStmt>();
+  statement->id = next_node_id_++;
+  statement->condition = parse_assignment_expression();
+  consume(TokenKind::RightParen, "')'");
+  auto then_branch = parse_block();
+  statement->then_branch = std::unique_ptr<BlockStmt>(static_cast<BlockStmt*>(then_branch.release()));
+  if (match(TokenKind::Else)) {
+    statement->else_branch = check(TokenKind::If) ? parse_if_statement() : parse_block();
+  }
+  statement->span = Span{start, statement->else_branch != nullptr ? statement->else_branch->span.end
+                                                                    : statement->then_branch->span.end};
+  return statement;
+}
+
+StmtPtr Parser::parse_while_statement() {
+  const auto start = previous().span.start;
+  consume(TokenKind::LeftParen, "'('");
+  auto statement = std::make_unique<WhileStmt>();
+  statement->id = next_node_id_++;
+  statement->condition = parse_assignment_expression();
+  consume(TokenKind::RightParen, "')'");
+  auto body = parse_block();
+  statement->body = std::unique_ptr<BlockStmt>(static_cast<BlockStmt*>(body.release()));
+  statement->span = Span{start, statement->body->span.end};
+  return statement;
+}
+
+StmtPtr Parser::parse_for_statement() {
+  const auto start = previous().span.start;
+  consume(TokenKind::LeftParen, "'('");
+  auto statement = std::make_unique<ForStmt>();
+  statement->id = next_node_id_++;
+  if (!check(TokenKind::Semicolon)) {
+    statement->initializer = check(TokenKind::Let) ? (match(TokenKind::Let), parse_let_statement(false))
+                                                   : parse_expression_statement(false);
+  }
+  consume(TokenKind::Semicolon, "';'");
+  if (!check(TokenKind::Semicolon)) {
+    statement->condition = parse_assignment_expression();
+  }
+  consume(TokenKind::Semicolon, "';'");
+  if (!check(TokenKind::RightParen)) {
+    statement->update = parse_expression_statement(false);
+  }
+  consume(TokenKind::RightParen, "')'");
+  auto body = parse_block();
+  statement->body = std::unique_ptr<BlockStmt>(static_cast<BlockStmt*>(body.release()));
+  statement->span = Span{start, statement->body->span.end};
+  return statement;
+}
+
+StmtPtr Parser::parse_return_statement() {
+  const auto start = previous().span.start;
+  auto statement = std::make_unique<ReturnStmt>();
+  statement->id = next_node_id_++;
+  if (!check(TokenKind::Semicolon)) {
+    statement->value = parse_assignment_expression();
+  }
+  const auto semicolon = consume(TokenKind::Semicolon, "';'");
+  statement->span = Span{start, semicolon.span.end};
+  return statement;
+}
+
+StmtPtr Parser::parse_expression_statement(bool require_semicolon) {
+  auto expression = parse_assignment_expression();
+  auto statement = std::make_unique<ExprStmt>();
+  statement->id = next_node_id_++;
+  statement->span = expression->span;
+  statement->expression = std::move(expression);
+  if (require_semicolon) {
+    statement->span.end = consume(TokenKind::Semicolon, "';'").span.end;
+  }
+  return statement;
+}
+
+TypeAnnotation Parser::parse_type_annotation() {
+  const auto start = current().span.start;
+  Type type{TypeKind::Error, nullptr};
+  switch (current().kind) {
+    case TokenKind::IntType:
+      type.kind = TypeKind::Int;
+      break;
+    case TokenKind::FloatType:
+      type.kind = TypeKind::Float;
+      break;
+    case TokenKind::BoolType:
+      type.kind = TypeKind::Bool;
+      break;
+    case TokenKind::StringType:
+      type.kind = TypeKind::String;
+      break;
+    case TokenKind::Unit:
+    case TokenKind::UnitType:
+      type.kind = TypeKind::Unit;
+      break;
+    default:
+      report("P002", "expected type", current().span);
+      return TypeAnnotation{Type::error(), current().span};
+  }
+  const auto base = current();
+  ++current_index_;
+  auto end = base.span.end;
+  while (match(TokenKind::LeftBracket)) {
+    const auto right = consume(TokenKind::RightBracket, "']'");
+    type = Type{TypeKind::Array, std::make_shared<Type>(type)};
+    end = right.span.end;
+  }
+  return TypeAnnotation{type, Span{start, end}};
+}
+
+Parameter Parser::parse_parameter() {
+  const auto start = current().span.start;
+  const auto name = consume(TokenKind::Identifier, "parameter name");
+  consume(TokenKind::Colon, "':'");
+  auto annotation = parse_type_annotation();
+  return Parameter{name.lexeme, annotation, Span{start, annotation.span.end}};
+}
+
+void Parser::synchronize_statement() {
+  while (!check(TokenKind::Eof) && !check(TokenKind::Semicolon) && !check(TokenKind::RightBrace) &&
+         !check(TokenKind::Fn) && !check(TokenKind::Let) && !check(TokenKind::If) &&
+         !check(TokenKind::While) && !check(TokenKind::For) && !check(TokenKind::Return)) {
+    ++current_index_;
+  }
+  if (check(TokenKind::Semicolon)) {
+    ++current_index_;
+  }
 }
 
 bool Parser::check(TokenKind kind) const {

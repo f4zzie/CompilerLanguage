@@ -23,6 +23,18 @@ class Parser {
   ExprPtr parse_primary();
   ExprPtr parse_array_literal();
   ExprPtr parse_assignment_expression();
+  std::unique_ptr<FunctionDecl> parse_function_declaration();
+  StmtPtr parse_statement();
+  StmtPtr parse_block();
+  StmtPtr parse_let_statement(bool require_semicolon);
+  StmtPtr parse_if_statement();
+  StmtPtr parse_while_statement();
+  StmtPtr parse_for_statement();
+  StmtPtr parse_return_statement();
+  StmtPtr parse_expression_statement(bool require_semicolon);
+  TypeAnnotation parse_type_annotation();
+  Parameter parse_parameter();
+  void synchronize_statement();
   bool check(TokenKind kind) const;
   bool match(TokenKind kind);
   const Token& current() const;
