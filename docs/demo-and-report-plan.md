@@ -45,7 +45,7 @@ MUST presentation remains complete.
 - Table of positive, negative, and golden test counts.
 - Clean-machine build commands and exact compiler version.
 
-## Submission package
+## Submission package (DRAFT)
 
 The release archive contains source, `CMakeLists.txt`, presets, scripts, docs, tests, examples,
 third-party doctest header, and the report PDF or Markdown required by the course. It excludes
