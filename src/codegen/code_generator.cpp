@@ -294,14 +294,14 @@ class Emitter {
     if (const auto* index = dynamic_cast<const IndexExpr*>(&expression)) {
       emit_expression(*index->object);
       emit_expression(*index->index);
-      emit(OpCode::LoadLocal, -1, index->span);
+      emit(OpCode::Index, 0, index->span);
       return;
     }
     if (const auto* array = dynamic_cast<const ArrayExpr*>(&expression)) {
       for (const auto& element : array->elements) {
         emit_expression(*element);
       }
-      emit(OpCode::Constant, add_constant(std::int64_t{0}), array->span);
+      emit(OpCode::MakeArray, static_cast<std::int32_t>(array->elements.size()), array->span);
     }
   }
 

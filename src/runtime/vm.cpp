@@ -102,6 +102,17 @@ std::string value_to_string(const Value& value) {
         std::ostringstream output;
         if constexpr (std::is_same_v<Item, UnitValue>) {
           return std::string("unit");
+        } else if constexpr (std::is_same_v<Item, std::shared_ptr<RuntimeArray>>) {
+          std::ostringstream array;
+          array << '[';
+          if (item != nullptr) {
+            for (std::size_t index = 0; index < item->elements.size(); ++index) {
+              if (index != 0) array << ", ";
+              array << value_to_string(item->elements[index]);
+            }
+          }
+          array << ']';
+          return array.str();
         } else if constexpr (std::is_same_v<Item, bool>) {
           return item ? std::string("true") : std::string("false");
         } else {
@@ -292,8 +303,15 @@ VmResult Vm::run(const BytecodeModule& module) {
             std::getline(std::cin, line);
             stack_.emplace_back(std::move(line));
           } else if (function.name == "len") {
-            if (args.size() != 1 || !std::holds_alternative<std::string>(args.front())) return fail("R006", "len expects a string", instruction.span);
-            stack_.emplace_back(static_cast<std::int64_t>(std::get<std::string>(args.front()).size()));
+            if (args.size() != 1) return fail("R006", "len expects one argument", instruction.span);
+            if (std::holds_alternative<std::string>(args.front())) {
+              stack_.emplace_back(static_cast<std::int64_t>(std::get<std::string>(args.front()).size()));
+            } else if (std::holds_alternative<std::shared_ptr<RuntimeArray>>(args.front()) &&
+                       std::get<std::shared_ptr<RuntimeArray>>(args.front()) != nullptr) {
+              stack_.emplace_back(static_cast<std::int64_t>(std::get<std::shared_ptr<RuntimeArray>>(args.front())->elements.size()));
+            } else {
+              return fail("R006", "len expects a string or array", instruction.span);
+            }
           } else if (function.name == "to_string") {
             if (args.size() != 1) return fail("R006", "to_string expects one argument", instruction.span);
             stack_.emplace_back(value_to_string(args.front()));
@@ -315,6 +333,34 @@ VmResult Vm::run(const BytecodeModule& module) {
           stack_.pop_back();
         }
         frames.push_back(Frame{static_cast<std::size_t>(instruction.operand), function.entry, frame.ip, std::move(locals)});
+        break;
+      }
+      case OpCode::MakeArray: {
+        if (instruction.operand < 0 || stack_.size() < static_cast<std::size_t>(instruction.operand)) {
+          return fail("R006", "array construction stack underflow", instruction.span);
+        }
+        auto array = std::make_shared<RuntimeArray>();
+        array->elements.resize(static_cast<std::size_t>(instruction.operand));
+        for (std::size_t index = array->elements.size(); index > 0; --index) {
+          array->elements[index - 1] = stack_.back();
+          stack_.pop_back();
+        }
+        stack_.push_back(std::move(array));
+        break;
+      }
+      case OpCode::Index: {
+        const auto index = pop(instruction.span);
+        const auto object = pop(instruction.span);
+        if (!index.has_value() || !object.has_value() || !std::holds_alternative<std::int64_t>(*index) ||
+            !std::holds_alternative<std::shared_ptr<RuntimeArray>>(*object)) {
+          return fail("R006", "invalid index operation", instruction.span);
+        }
+        const auto array = std::get<std::shared_ptr<RuntimeArray>>(*object);
+        const auto position = std::get<std::int64_t>(*index);
+        if (array == nullptr || position < 0 || static_cast<std::size_t>(position) >= array->elements.size()) {
+          return fail("R003", "index out of range", instruction.span);
+        }
+        stack_.push_back(array->elements[static_cast<std::size_t>(position)]);
         break;
       }
       case OpCode::Return: {
