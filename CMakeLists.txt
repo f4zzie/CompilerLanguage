@@ -53,6 +53,7 @@ if(KITE_BUILD_TESTS)
     tests/unit/ast_test.cpp
     tests/unit/parser_expression_test.cpp
     tests/unit/parser_statement_test.cpp
+    tests/unit/symbol_test.cpp
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)
