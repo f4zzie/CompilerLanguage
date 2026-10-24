@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T022 — golden token, AST, and disassembly fixtures**
+Current task: **T023 — automated end-to-end test runner**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -25,8 +25,8 @@ Current task: **T022 — golden token, AST, and disassembly fixtures**
 | T019 | done | `feat/T019-strings-and-builtins` | `c1c4aec` | 54 default cases / 2 CTest tests pass |
 | T020 | done | `feat/T020-pipe-operator` | `2eca8ce` | 56 default cases / 2 CTest tests pass |
 | T021 | done | `feat/T021-arrays-floats-and-for` | `adaf3a6` | 57 default cases / 2 CTest tests pass |
-| T022 | in progress | `feat/T022-golden-test-fixtures` | — | pending |
-| T023 | not started | — | — | — |
+| T022 | done | `feat/T022-golden-test-fixtures` | `2346692` | 57 default cases / 5 CTest tests pass |
+| T023 | in progress | `feat/T023-end-to-end-runner` | — | pending |
 | T024 | not started | — | — | — |
 | T025 | not started | — | — | — |
 | T026 | not started | — | — | — |
@@ -47,4 +47,5 @@ Current task: **T022 — golden token, AST, and disassembly fixtures**
 
 ## Next step
 
-Create deterministic token, AST, and disassembly golden fixtures with an opt-in regeneration workflow.
+Implement the positive and negative corpus runner for source, expected output, exit codes, stdin,
+stderr fragments, and bounded timeouts.
