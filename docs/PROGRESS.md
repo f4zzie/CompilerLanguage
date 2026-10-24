@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T009 — type system and semantic checker**
+Current task: **T010 — bytecode format and disassembler**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -12,8 +12,8 @@ Current task: **T009 — type system and semantic checker**
 | T006 | done | `feat/T006-pratt-expression-parser` | `7427231` | 15 default cases / 1 CTest pass |
 | T007 | done | `feat/T007-statement-parser-and-recovery` | `efb20cb` | 21 default cases / 1 CTest pass |
 | T008 | done | `feat/T008-symbol-table-and-scopes` | `f434abe` | 24 default cases / 1 CTest pass |
-| T009 | in progress | `feat/T009-type-system-and-checker` | — | pending |
-| T010 | not started | — | — | — |
+| T009 | done | `feat/T009-type-system-and-checker` | `f4261de` | 29 default cases / 1 CTest pass |
+| T010 | in progress | `feat/T010-bytecode-format-and-disassembler` | — | pending |
 | T011 | not started | — | — | — |
 | T012 | not started | — | — | — |
 | T013 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T009 — type system and semantic checker**
 
 ## Next step
 
-Implement name resolution, local type inference, operator typing, calls, conditions, and return
-checking for T009.
+Finalize the bytecode module, opcode names, constant/function metadata, deterministic disassembly,
+and validation helpers for T010.
