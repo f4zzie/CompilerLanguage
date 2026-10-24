@@ -13,6 +13,7 @@
 ├── README.md                      User-facing project overview and quick start.
 ├── cmake/README.md                Notes for future reusable CMake modules.
 ├── docs/                          Specification, architecture, process, and task cards.
+│   ├── PROGRESS.md                Resumable task status and next step.
 │   ├── assumptions.md             Defaults for missing assignment information.
 │   ├── architecture.md            Pipeline contracts, VM, opcode table, extension recipes.
 │   ├── coding-standards.md        Source and collaboration conventions.
@@ -63,6 +64,7 @@
 │   └── driver/                    CLI and pipeline orchestration.
 ├── tests/                         Automated verification.
 │   ├── test_main.cpp              doctest entry point.
+│   ├── spec/                      Contract review checklists.
 │   ├── unit/                      Per-stage unit tests.
 │   ├── golden/                    Token, AST, and disassembly fixtures.
 │   ├── programs/                  Positive end-to-end corpus.

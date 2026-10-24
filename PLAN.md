@@ -24,6 +24,7 @@ modules, and optimization passes remain stretch or future work.
 | `docs/risk-register.md` | Risks, triggers, and mitigations |
 | `docs/rubric-traceability.md` | Generic rubric mapping until the real rubric arrives |
 | `docs/demo-and-report-plan.md` | Final demo, report, and submission plan |
+| `docs/PROGRESS.md` | Resumable implementation status |
 | `docs/decisions/` | Architecture decision records |
 | `docs/task-cards/` | T001–T029 implementation and delivery tasks |
 
