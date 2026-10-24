@@ -9,3 +9,4 @@ cmake --preset linux-debug
 cmake --build --preset linux-debug
 ctest --test-dir build/linux-debug --output-on-failure
 python3 scripts/run-corpus.py build/linux-debug/kite tests/programs
+python3 scripts/run-errors.py build/linux-debug/kite tests/errors
