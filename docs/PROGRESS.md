@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T028 — submission package and clean-machine rehearsal**
+Current task: **T029 — final self-review and rubric traceability update**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -31,8 +31,8 @@ Current task: **T028 — submission package and clean-machine rehearsal**
 | T025 | done | `feat/T025-fuzz-and-sanitizers` | `88b34ed` | 57 default cases / 6 CTest tests / ASan green |
 | T026 | done | `feat/T026-readme-and-example-corpus` | `868ea6a` | 57 default cases / 7 CTest / 12 examples pass |
 | T027 | done | `feat/T027-demo-and-report` | `f42a591` | 7 CTest tests / demo materials updated |
-| T028 | in progress | `feat/T028-submission-package` | — | pending |
-| T029 | not started | — | — | — |
+| T028 | done | `feat/T028-submission-package` | `6721fd8` | package manifest ok: 269 entries |
+| T029 | in progress | `feat/T029-final-self-review-and-rubric-update` | — | pending |
 
 ## Decisions made
 
@@ -47,4 +47,5 @@ Current task: **T028 — submission package and clean-machine rehearsal**
 
 ## Next step
 
-Create and inspect a clean submission archive, excluding build output and private repository state.
+Run the final self-review, create FINAL-STATUS and CODE-WALKTHROUGH documents, and record verified
+commands, limitations, cuts, and contract changes.
