@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T012 — stack VM and call-frame core**
+Current task: **T015 — variables, assignments, and lexical scopes**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -15,7 +15,10 @@ Current task: **T012 — stack VM and call-frame core**
 | T009 | done | `feat/T009-type-system-and-checker` | `f4261de` | 29 default cases / 1 CTest pass |
 | T010 | done | `feat/T010-bytecode-format-and-disassembler` | `cde6f9c` | 32 default cases / 1 CTest pass |
 | T011 | done | `feat/T011-code-generator` | `45a93fa` (on main) | 33 default cases / 1 CTest pass |
-| T012 | in progress | `feat/T012-vm-core` | — | pending |
+| T012 | done | `feat/T012-vm-core` | `5f0cb12` | 37 default cases / 1 CTest pass |
+| T013 | done | `feat/T013-driver-and-cli` | `b71424b` (on main) | 40 default cases / 1 CTest pass |
+| T014 | done | `feat/T014-walking-skeleton` | `b32ea55` | 2 CTest tests pass |
+| T015 | in progress | `feat/T015-variables-and-scopes` | — | pending |
 | T013 | not started | — | — | — |
 | T014 | not started | — | — | — |
 | T015 | not started | — | — | — |
@@ -47,5 +50,5 @@ Current task: **T012 — stack VM and call-frame core**
 
 ## Next step
 
-Implement the operand stack, globals, call frames, opcode dispatch, builtin calls, and runtime errors
-for T012.
+Implement local/global variable slots, assignment, lexical shadowing, and scope-aware bytecode for
+T015.
