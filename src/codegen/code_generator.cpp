@@ -198,10 +198,20 @@ class Emitter {
     if (const auto* binary = dynamic_cast<const BinaryExpr*>(&expression)) {
       if (binary->op == BinaryOperator::And || binary->op == BinaryOperator::Or) {
         emit_expression(*binary->left);
-        const auto branch = emit(binary->op == BinaryOperator::And ? OpCode::JumpIfFalse : OpCode::JumpIfFalse,
-                                 -1, binary->span);
-        emit_expression(*binary->right);
-        patch(branch, module_.instructions.size());
+        const auto branch = emit(OpCode::JumpIfFalse, -1, binary->span);
+        if (binary->op == BinaryOperator::And) {
+          emit_expression(*binary->right);
+          const auto end = emit(OpCode::Jump, -1, binary->span);
+          patch(branch, module_.instructions.size());
+          emit(OpCode::Constant, add_constant(false), binary->span);
+          patch(end, module_.instructions.size());
+        } else {
+          emit(OpCode::Constant, add_constant(true), binary->span);
+          const auto end = emit(OpCode::Jump, -1, binary->span);
+          patch(branch, module_.instructions.size());
+          emit_expression(*binary->right);
+          patch(end, module_.instructions.size());
+        }
         return;
       }
       emit_expression(*binary->left);
