@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T026 — README and showcase example corpus**
+Current task: **T027 — final demo and written report**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -29,8 +29,8 @@ Current task: **T026 — README and showcase example corpus**
 | T023 | done | `feat/T023-end-to-end-runner` | `bc27066` | 57 default cases / 5 CTest tests / 3 corpus passes |
 | T024 | done | `feat/T024-negative-test-corpus` | `1ad1c55` | 57 default cases / 5 CTest / 3 positive + 2 negative corpus passes |
 | T025 | done | `feat/T025-fuzz-and-sanitizers` | `88b34ed` | 57 default cases / 6 CTest tests / ASan green |
-| T026 | in progress | `feat/T026-readme-and-example-corpus` | — | pending |
-| T027 | not started | — | — | — |
+| T026 | done | `feat/T026-readme-and-example-corpus` | `868ea6a` | 57 default cases / 7 CTest / 12 examples pass |
+| T027 | in progress | `feat/T027-demo-and-report` | — | pending |
 | T028 | not started | — | — | — |
 | T029 | not started | — | — | — |
 
@@ -47,4 +47,4 @@ Current task: **T026 — README and showcase example corpus**
 
 ## Next step
 
-Align the user-facing README and every showcase example with the implemented CLI and real outputs.
+Produce evidence-backed draft demo/report materials and verify the final presentation flow.
