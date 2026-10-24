@@ -1,1 +1,8 @@
-EOF
+1:1 identifier `print`
+1:6 ( `(`
+1:7 integer `1`
+1:9 + `+`
+1:11 integer `2`
+1:12 ) `)`
+1:13 ; `;`
+2:1 eof ``
