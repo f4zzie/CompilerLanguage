@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T019 — strings and builtin registry**
+Current task: **T020 — pipe operator SHOULD feature**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -22,8 +22,8 @@ Current task: **T019 — strings and builtin registry**
 | T016 | done | `feat/T016-control-flow` | `b288b1b` | 45 default cases / 2 CTest tests pass |
 | T017 | done | `feat/T017-functions-and-call-frames` | `4af1c1d` | 48 default cases / 2 CTest tests pass |
 | T018 | done | `feat/T018-recursion-and-returns` | `32a9140` | 51 default cases / 2 CTest tests pass |
-| T019 | in progress | `feat/T019-strings-and-builtins` | — | pending |
-| T020 | not started | — | — | — |
+| T019 | done | `feat/T019-strings-and-builtins` | `c1c4aec` | 54 default cases / 2 CTest tests pass |
+| T020 | in progress | `feat/T020-pipe-operator` | — | pending |
 | T021 | not started | — | — | — |
 | T022 | not started | — | — | — |
 | T023 | not started | — | — | — |
@@ -47,5 +47,4 @@ Current task: **T019 — strings and builtin registry**
 
 ## Next step
 
-Implement string values, concatenation, print/input/len/to_string/to_int builtins, and their runtime
-error behavior for T019.
+Implement the SHOULD pipe operator as left-to-right function application without changing its tier.
