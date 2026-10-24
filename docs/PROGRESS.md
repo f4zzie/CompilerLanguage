@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T007 — statement parser and recovery**
+Current task: **T008 — symbol table and lexical scopes**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -10,8 +10,8 @@ Current task: **T007 — statement parser and recovery**
 | T004 | done | `feat/T004-token-model-and-lexer` | `d341459` | 11 default cases / 1 CTest pass |
 | T005 | done | `feat/T005-ast-and-printer` | `e313b89` | 13 default cases / 1 CTest pass |
 | T006 | done | `feat/T006-pratt-expression-parser` | `7427231` | 15 default cases / 1 CTest pass |
-| T007 | in progress | `feat/T007-statement-parser-and-recovery` | — | pending |
-| T008 | not started | — | — | — |
+| T007 | done | `feat/T007-statement-parser-and-recovery` | `efb20cb` | 21 default cases / 1 CTest pass |
+| T008 | in progress | `feat/T008-symbol-table-and-scopes` | — | pending |
 | T009 | not started | — | — | — |
 | T010 | not started | — | — | — |
 | T011 | not started | — | — | — |
@@ -47,5 +47,4 @@ Current task: **T007 — statement parser and recovery**
 
 ## Next step
 
-Implement top-level declarations, statements, blocks, control-flow grammar, and panic-mode parser
-recovery for T007.
+Implement lexical symbol scopes, shadowing, duplicate detection, and parent lookup for T008.
