@@ -6,7 +6,7 @@
 | Deadline | Saturday, December 5, 2026 | Change the single `DEADLINE` value in `docs/milestones.md`, then recompute every date and preserve the final 15–20% and 10% buffer. |
 | Rubric | Not available; generic compiler-course criteria are used | Replace the generic rows in `docs/rubric-traceability.md` one-for-one with the supplied rubric. |
 | Implementation language | C++20 | If prohibited, create ADR-0001 revision and translate the public contracts to the mandated language. |
-| Test framework | A local doctest-compatible stand-in header is currently committed; it is not the real upstream `doctest.h` | Before relying on full doctest behavior, replace `third_party/doctest/doctest.h` with the approved upstream single-header release and keep test names/formats stable. |
+| Test framework | Upstream doctest v2.5.3 single header is vendored at `third_party/doctest/doctest.h` | Upgrade only by selecting an official upstream release, replacing the header, preserving its license text, and recording the source URL/version in `third_party/doctest/README.md`. |
 | Platforms | Linux, macOS, Windows/MSVC; MinGW is best effort | If Linux-only is selected, remove the Windows/macOS CI matrix and state the reduced portability guarantee. |
 | Team | Three students, 8 hours per person per week | For another team size, use the parallel plans in `docs/milestones.md`; MUST scope remains intentionally one-person achievable. |
 | Entry point | Top-level statements compile into synthetic `__main` | If a course requires `main`, add a source-level `main() -> unit` rule and update grammar, sema, codegen, and examples. |

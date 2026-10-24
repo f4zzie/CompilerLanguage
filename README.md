@@ -33,7 +33,7 @@ the language, compiler, runtime, diagnostics, test corpus, documentation, report
 one reproducible repository rather than as disconnected experiments.
 
 The compiler avoids parser generators, LLVM bindings, CLI frameworks, and large dependencies. CMake
-and CTest provide the build/test interface, while one vendored doctest-compatible header supports
+and CTest provide the build/test interface, while the upstream doctest v2.5.3 single header supports
 unit tests. The MUST tier is designed to remain achievable by one student; arrays, floats, and the
 pipe operator are optional SHOULD work and must not delay the core compiler.
 
@@ -167,7 +167,7 @@ src/                  C++20 compiler and runtime modules
 tests/                unit, golden, end-to-end, and negative tests
 examples/             demo programs and language examples
 scripts/              cross-platform build/test/format/example helpers
-third_party/doctest/  vendored single-header test framework
+third_party/doctest/  upstream doctest v2.5.3 single-header test framework
 cmake/                build-system notes and reusable CMake support
 docs/                 specification, architecture, decisions, plans, and task cards
 ```

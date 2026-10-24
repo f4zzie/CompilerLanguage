@@ -63,7 +63,7 @@ test and documentation work.
 - [x] Task cards are split into 2–8 hour units with dependencies and tests.
 - [x] The schedule has a five-day M5 and explicit buffer.
 - [x] Walking skeleton is the first executable feature and its red test exists.
-- [x] The scaffold uses only C++20, CMake, CTest, and vendored doctest.
+- [x] The scaffold uses only C++20, CMake, CTest, and upstream doctest v2.5.3.
 - [x] No untracked placeholder such as `TBD` or `etc.` is used in normative docs; open questions are explicit.
 - [x] Naming is consistent across specification, code, tests, and task cards.
 - [x] The pipe operator is in exactly one tier: SHOULD.

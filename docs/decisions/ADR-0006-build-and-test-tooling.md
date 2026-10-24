@@ -24,13 +24,13 @@ effort 2.
 
 ## Decision
 
-Use CMake 3.20+, presets, CTest, a committed doctest-compatible header, shell and PowerShell
+Use CMake 3.20+, presets, CTest, the upstream doctest v2.5.3 single header, shell/PowerShell/batch
 helpers, and GitHub Actions for Linux/macOS/Windows.
 
 ## Consequences
 
 The repository has a small amount of build configuration but can be opened by common IDEs and run
-without installing a package manager. The scaffold keeps the test framework API intentionally small.
+without installing a package manager. The test framework is a fixed, reviewable upstream dependency.
 
 ## How to reverse
 
