@@ -79,6 +79,9 @@ if(KITE_BUILD_TESTS)
                    -DKITE_SOURCE_FILE=${CMAKE_SOURCE_DIR}/examples/hello.kite
                    -P ${CMAKE_SOURCE_DIR}/tests/e2e/walking_skeleton_test.cmake)
   add_test(NAME fuzz_lexer_parser COMMAND kite_fuzz_smoke)
+  add_test(NAME examples_corpus
+           COMMAND python3 ${CMAKE_SOURCE_DIR}/scripts/check-examples.py
+                   $<TARGET_FILE:kite> ${CMAKE_SOURCE_DIR}/examples)
   foreach(golden_command IN ITEMS tokens ast disasm)
     add_test(NAME golden_hello_${golden_command}
              COMMAND ${CMAKE_COMMAND}
