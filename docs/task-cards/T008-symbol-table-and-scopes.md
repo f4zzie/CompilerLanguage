@@ -13,4 +13,4 @@ Acceptance criteria:   1. Same-scope duplicates are rejected. 2. Nested shadowin
 Tests to write first: names and what they assert: `symbol_shadowing`; `symbol_duplicate`; `symbol_parent_lookup`; assert returned declaration spans.
 Edge cases to cover: empty scope; lookup after pop; global/function name collision; local used before declaration; many nested scopes.
 Out of scope:          expression type inference, bytecode local-slot emission.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

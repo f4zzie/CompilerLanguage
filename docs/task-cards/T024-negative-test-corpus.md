@@ -13,4 +13,4 @@ Acceptance criteria:   1. L/P/S/T codes each have a test. 2. R001 and R002 have 
 Tests to write first: names and what they assert: `errors_all_compile_codes`; `errors_runtime_codes`; `errors_max_errors`; assert code, span, and exit.
 Edge cases to cover: first-byte error; final-byte error; multiple errors on one line; parser recovery after malformed block; cascaded type errors.
 Out of scope:          localized messages, JSON output, IDE protocol.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

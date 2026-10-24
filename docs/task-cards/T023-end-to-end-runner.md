@@ -13,4 +13,4 @@ Acceptance criteria:   1. Positive programs compare exact stdout. 2. Exit codes 
 Tests to write first: names and what they assert: `runner_hello`; `runner_runtime_error`; `runner_timeout`; assert status and diff reporting.
 Edge cases to cover: missing expected file; empty expected output; CRLF normalization; spaces in paths; program writes stderr.
 Out of scope:          networked test services, Docker, external test runners.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

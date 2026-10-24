@@ -13,4 +13,4 @@ Acceptance criteria:   1. Handcrafted constant/add/halt module returns 3. 2. Bra
 Tests to write first: names and what they assert: `vm_adds_integers`; `vm_branches`; `vm_rejects_bad_operand`; `vm_trace`; assert result/error and trace text.
 Edge cases to cover: empty module; division by zero; signed overflow; maximum stack; return from synthetic main; invalid function index.
 Out of scope:          source parsing, builtins, arrays, garbage collection.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

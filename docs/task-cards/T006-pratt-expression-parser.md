@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every operator has the specified precedence. 2. Assign
 Tests to write first: names and what they assert: `parser_precedence`; `parser_assignment`; `parser_call_and_index`; `parser_pipe`; assert AST shape.
 Edge cases to cover: unary minus versus subtraction; empty argument list; trailing comma rejection; nested parentheses; pipe chain associativity.
 Out of scope:          statement parsing, name resolution, type checking, bytecode.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

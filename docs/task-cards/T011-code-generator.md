@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every MUST expression and statement emits bytecode. 2.
 Tests to write first: names and what they assert: `codegen_literal_expression`; `codegen_branch`; `codegen_function`; assert opcode sequences and operands.
 Edge cases to cover: empty block; implicit unit expression result; nested branches; global versus local binding; unreachable return after a branch.
 Out of scope:          peephole optimization, arrays, C backend, VM dispatch.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

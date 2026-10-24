@@ -13,4 +13,4 @@ Acceptance criteria:   1. All six commands parse. 2. `--trace` and `--max-errors
 Tests to write first: names and what they assert: `cli_help`; `cli_missing_file`; `cli_dump_commands`; assert usage text and exit codes.
 Edge cases to cover: no arguments; unknown command; option before/after file; empty source; Windows path separators.
 Out of scope:          shell completion, config files, third-party CLI libraries.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

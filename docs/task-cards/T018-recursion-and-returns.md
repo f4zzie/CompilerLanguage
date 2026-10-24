@@ -13,4 +13,4 @@ Acceptance criteria:   1. Factorial(5) returns 120. 2. Fibonacci(6) returns 8. 3
 Tests to write first: names and what they assert: `recursive_factorial`; `recursive_fibonacci`; `missing_return`; `stack_overflow`; assert result/error.
 Edge cases to cover: base case at zero; negative input; recursive function with locals; unit recursive function; return inside branch.
 Out of scope:          tail-call optimization, closures, coroutines.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

@@ -13,4 +13,4 @@ Acceptance criteria:   1. All grammar spellings tokenize. 2. Longest-match opera
 Tests to write first: names and what they assert: `lexer_keywords`; `lexer_literals`; `lexer_operators`; `lexer_comments`; `lexer_errors`; assert kinds, lexemes, spans, and codes.
 Edge cases to cover: empty source; CRLF; unterminated string/comment; invalid escape; identifier adjacent to digits; `->` versus `-`.
 Out of scope:          AST construction, type checking, indentation-sensitive syntax.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

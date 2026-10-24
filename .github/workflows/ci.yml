@@ -17,4 +17,5 @@ jobs:
       - name: Build
         run: cmake --build --preset release
       - name: Test
+        # The default KITE_RUN_WALKING_SKELETON switch stays OFF until T014.
         run: ctest --test-dir build/release --output-on-failure

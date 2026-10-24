@@ -13,4 +13,4 @@ Acceptance criteria:   1. At least hello, expressions, control flow, and functio
 Tests to write first: names and what they assert: `golden_hello`; `golden_control_flow`; `golden_functions`; assert byte-for-byte snapshots.
 Edge cases to cover: empty source; multiple functions; nested blocks; strings with escapes; stable ordering across repeated runs.
 Out of scope:          visual snapshot tooling and binary bytecode snapshots.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

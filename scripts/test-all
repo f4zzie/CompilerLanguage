@@ -5,6 +5,7 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd -- "$script_dir/.." && pwd)"
 cd "$repo_root"
 
+# CMake's KITE_RUN_WALKING_SKELETON switch stays OFF until T014.
 cmake --preset linux-debug
 cmake --build --preset linux-debug
 ctest --test-dir build/linux-debug --output-on-failure

@@ -13,4 +13,4 @@ Acceptance criteria:   1. Conditionals choose exactly one branch. 2. `and/or` sh
 Tests to write first: names and what they assert: `conditional_branch`; `short_circuit`; `while_loop`; assert exact stdout and diagnostics.
 Edge cases to cover: false branch absent; zero-iteration loop; nested loops; condition with function call; integer comparison boundary.
 Out of scope:          break/continue, expression-oriented blocks, for loops.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works

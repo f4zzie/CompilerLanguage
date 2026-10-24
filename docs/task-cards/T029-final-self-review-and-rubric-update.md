@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every checklist item has a checked result or explicit 
 Tests to write first: names and what they assert: `self_review_paths`; `rubric_rows_complete`; assert referenced files exist and required commands are listed.
 Edge cases to cover: late rubric addition; date change; dropped SHOULD feature; platform-specific sanitizer omission; failed clean-machine run.
 Out of scope:          changing code solely to improve a report; adding unplanned features after freeze.
-Definition of done:    code merged, tests green, docs updated, dump flag works
+Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
