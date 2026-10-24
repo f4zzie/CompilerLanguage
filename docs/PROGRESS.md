@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T010 — bytecode format and disassembler**
+Current task: **T012 — stack VM and call-frame core**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -13,9 +13,9 @@ Current task: **T010 — bytecode format and disassembler**
 | T007 | done | `feat/T007-statement-parser-and-recovery` | `efb20cb` | 21 default cases / 1 CTest pass |
 | T008 | done | `feat/T008-symbol-table-and-scopes` | `f434abe` | 24 default cases / 1 CTest pass |
 | T009 | done | `feat/T009-type-system-and-checker` | `f4261de` | 29 default cases / 1 CTest pass |
-| T010 | in progress | `feat/T010-bytecode-format-and-disassembler` | — | pending |
-| T011 | not started | — | — | — |
-| T012 | not started | — | — | — |
+| T010 | done | `feat/T010-bytecode-format-and-disassembler` | `cde6f9c` | 32 default cases / 1 CTest pass |
+| T011 | done | `feat/T011-code-generator` | `45a93fa` (on main) | 33 default cases / 1 CTest pass |
+| T012 | in progress | `feat/T012-vm-core` | — | pending |
 | T013 | not started | — | — | — |
 | T014 | not started | — | — | — |
 | T015 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T010 — bytecode format and disassembler**
 
 ## Next step
 
-Finalize the bytecode module, opcode names, constant/function metadata, deterministic disassembly,
-and validation helpers for T010.
+Implement the operand stack, globals, call frames, opcode dispatch, builtin calls, and runtime errors
+for T012.
