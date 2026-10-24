@@ -70,8 +70,3 @@ TEST_CASE("token dump is deterministic") {
   CHECK(kite::dump_tokens(tokens) ==
         "1:1 let `let`\n1:5 identifier `x`\n1:7 = `=`\n1:9 integer `42`\n1:11 ; `;`\n1:12 eof ``\n");
 }
-
-TEST_CASE("walking_skeleton") {
-  // TODO(T014): replace this red test with an end-to-end print(1 + 2) assertion.
-  CHECK(false);
-}

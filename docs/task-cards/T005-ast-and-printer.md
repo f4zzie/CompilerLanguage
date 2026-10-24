@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every grammar production maps to a node or field. 2. N
 Tests to write first: names and what they assert: `ast_printer_literals`; `ast_printer_function`; asserts exact canonical output.
 Edge cases to cover: empty program; empty block; function with no parameters; return without value; nested pipe/call/index expressions.
 Out of scope:          parsing, semantic annotations beyond storage, serialization formats.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

@@ -13,4 +13,4 @@ Acceptance criteria:   1. One-line and multi-line spans render correctly. 2. Sor
 Tests to write first: names and what they assert: `diagnostic_render_single_line`; `diagnostic_render_multiline`; `diagnostic_cap`; asserts exact text and counts.
 Edge cases to cover: zero-width spans; span at final byte; missing source file; Unicode bytes before a caret; warning does not count as an error.
 Out of scope:          parser recovery, colored terminal output, JSON diagnostics.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

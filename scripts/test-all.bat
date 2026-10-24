@@ -4,7 +4,6 @@ set "REPO_ROOT=%~dp0.."
 pushd "%REPO_ROOT%"
 if errorlevel 1 exit /b 1
 
-rem CMake's KITE_RUN_WALKING_SKELETON switch stays OFF until T014.
 cmake --preset linux-debug
 if errorlevel 1 (
   popd

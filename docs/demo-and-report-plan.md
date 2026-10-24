@@ -5,7 +5,8 @@
 The final demonstration should take 8–10 minutes and use a clean Debug build.
 
 1. Show the repository and run `cmake --preset linux-debug` and `cmake --build --preset linux-debug`.
-2. Run `examples/hello.kite` to establish the smallest successful program.
+2. Run `examples/hello.kite` to establish the arithmetic walking skeleton, then run
+   `examples/hello-world.kite` for the greeting demo.
 3. Run `examples/arithmetic.kite` and `examples/scope.kite` to show values and lexical binding.
 4. Run `examples/conditionals.kite` and `examples/loops.kite` for control flow.
 5. Run `examples/recursion.kite` to demonstrate functions, returns, and call frames.

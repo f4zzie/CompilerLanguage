@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every opcode in architecture.md exists. 2. Disassembly
 Tests to write first: names and what they assert: `bytecode_disassemble`; `bytecode_constant_pool`; `bytecode_function_metadata`; assert exact output.
 Edge cases to cover: empty module; zero-arity function; jump to first/last instruction; duplicate constants; empty string constant.
 Out of scope:          AST lowering and execution dispatch.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

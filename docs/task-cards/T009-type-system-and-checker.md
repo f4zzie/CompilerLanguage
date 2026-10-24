@@ -13,4 +13,4 @@ Acceptance criteria:   1. Every MUST type rule is implemented. 2. Recursion and 
 Tests to write first: names and what they assert: `sema_infers_let`; `sema_checks_operators`; `sema_checks_calls`; `sema_checks_returns`; assert types and codes.
 Edge cases to cover: unit return; missing return; shadowed name; zero-argument function; wrong arity; invalid pipe target; bool in numeric expression.
 Out of scope:          implicit conversions, generics, structs, closures, optimization.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

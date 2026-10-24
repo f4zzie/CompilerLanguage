@@ -13,4 +13,4 @@ Acceptance criteria:   1. `examples/scope.kite` prints `2` then `1`. 2. Assignme
 Tests to write first: names and what they assert: `scope_shadowing`; `scope_assignment`; `scope_duplicate`; assert output or exact diagnostics.
 Edge cases to cover: assignment in nested block; global variable; parameter reassignment; shadowed function name; assignment result is unit.
 Out of scope:          immutable bindings, destructuring, modules.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

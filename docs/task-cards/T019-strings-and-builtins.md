@@ -13,4 +13,4 @@ Acceptance criteria:   1. Escaped strings round-trip. 2. String `+` works. 3. `l
 Tests to write first: names and what they assert: `strings_concat`; `strings_escapes`; `builtin_len`; `builtin_bad_to_int`; assert stdout/errors.
 Edge cases to cover: empty string; quote/backslash escapes; input EOF; very long string; print unit; to_string bool.
 Out of scope:          mutable strings, Unicode normalization, formatting libraries.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

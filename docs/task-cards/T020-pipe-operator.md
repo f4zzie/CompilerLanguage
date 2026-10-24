@@ -13,4 +13,4 @@ Acceptance criteria:   1. `5 |> double |> print` prints `10`. 2. Pipe target mus
 Tests to write first: names and what they assert: `pipe_chain`; `pipe_invalid_target`; assert output and diagnostic.
 Edge cases to cover: zero-parameter target; target with incompatible first parameter; nested pipe; function name shadowing.
 Out of scope:          arbitrary lambda RHS, multi-argument pipe syntax, changing the tier to MUST.
-Definition of done:    code merged, all tests except walking_skeleton pass until T014, docs updated, dump flag works
+Definition of done:    code merged, all tests pass, docs updated, dump flag works

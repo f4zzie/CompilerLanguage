@@ -28,7 +28,8 @@
 │   ├── decisions/                 Architecture decision records.
 │   └── task-cards/                T001–T029 implementation and delivery cards.
 ├── examples/                      Readable demo programs.
-│   ├── hello.kite                 Smallest successful output program.
+│   ├── hello.kite                 Arithmetic walking-skeleton program.
+│   ├── hello-world.kite           Greeting showcase program.
 │   ├── arithmetic.kite            Arithmetic and local binding example.
 │   ├── scope.kite                 Nested lexical scope example.
 │   ├── conditionals.kite           Boolean condition example.
