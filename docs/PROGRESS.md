@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T016 — conditionals and while loops**
+Current task: **T017 — functions, parameters, and call frames**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -19,8 +19,8 @@ Current task: **T016 — conditionals and while loops**
 | T013 | done | `feat/T013-driver-and-cli` | `b71424b` (on main) | 40 default cases / 1 CTest pass |
 | T014 | done | `feat/T014-walking-skeleton` | `b32ea55` | 2 CTest tests pass |
 | T015 | done | `feat/T015-variables-and-scopes` | `f4a306b` | 42 default cases / 2 CTest tests pass |
-| T016 | not started | — | — | — |
-| T017 | not started | — | — | — |
+| T016 | done | `feat/T016-control-flow` | `b288b1b` | 45 default cases / 2 CTest tests pass |
+| T017 | in progress | `feat/T017-functions-and-call-frames` | — | pending |
 | T018 | not started | — | — | — |
 | T019 | not started | — | — | — |
 | T020 | not started | — | — | — |
@@ -47,5 +47,5 @@ Current task: **T016 — conditionals and while loops**
 
 ## Next step
 
-Implement boolean conditions, short-circuit logic, if/else jumps, and while-loop back edges for
-T016.
+Implement typed function parameters, calls, returns, function entries, and isolated call frames for
+T017.
