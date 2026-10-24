@@ -1,1 +1,6 @@
-Program{}
+Program#0 [tests/golden/hello.kite:1:1-2:1]
+  ExprStmt#6 [tests/golden/hello.kite:1:1-1:14]
+    CallExpr#2 callee=print [tests/golden/hello.kite:1:1-1:13]
+      BinaryExpr#5 op=+ [tests/golden/hello.kite:1:7-1:12]
+        LiteralExpr#3 kind=integer text="1" [tests/golden/hello.kite:1:7-1:8]
+        LiteralExpr#4 kind=integer text="2" [tests/golden/hello.kite:1:11-1:12]

@@ -75,4 +75,14 @@ if(KITE_BUILD_TESTS)
                    -DKITE_EXECUTABLE=$<TARGET_FILE:kite>
                    -DKITE_SOURCE_FILE=${CMAKE_SOURCE_DIR}/examples/hello.kite
                    -P ${CMAKE_SOURCE_DIR}/tests/e2e/walking_skeleton_test.cmake)
+  foreach(golden_command IN ITEMS tokens ast disasm)
+    add_test(NAME golden_hello_${golden_command}
+             COMMAND ${CMAKE_COMMAND}
+                     -DKITE_EXECUTABLE=$<TARGET_FILE:kite>
+                     -DKITE_COMMAND=${golden_command}
+                     -DKITE_SOURCE=tests/golden/hello.kite
+                     -DKITE_WORKING_DIRECTORY=${CMAKE_SOURCE_DIR}
+                     -DKITE_EXPECTED=${CMAKE_SOURCE_DIR}/tests/golden/hello.${golden_command}
+                     -P ${CMAKE_SOURCE_DIR}/tests/golden/golden_test.cmake)
+  endforeach()
 endif()
