@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T005 — AST definitions and canonical printer**
+Current task: **T006 — Pratt expression parser**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -8,8 +8,8 @@ Current task: **T005 — AST definitions and canonical printer**
 | T002 | done | `feat/T002-specification-and-adrs` | `2aa662f` | 1 unit pass |
 | T003 | done | `feat/T003-diagnostics` | `86f74b3` | 7 cases / 13 assertions; 1 CTest pass |
 | T004 | done | `feat/T004-token-model-and-lexer` | `d341459` | 11 default cases / 1 CTest pass |
-| T005 | in progress | `feat/T005-ast-and-printer` | — | pending |
-| T006 | not started | — | — | — |
+| T005 | done | `feat/T005-ast-and-printer` | `e313b89` | 13 default cases / 1 CTest pass |
+| T006 | in progress | `feat/T006-pratt-expression-parser` | — | pending |
 | T007 | not started | — | — | — |
 | T008 | not started | — | — | — |
 | T009 | not started | — | — | — |
@@ -47,4 +47,5 @@ Current task: **T005 — AST definitions and canonical printer**
 
 ## Next step
 
-Define the complete AST hierarchy and canonical printer used by parser golden tests for T005.
+Implement recursive-descent expression parsing with Pratt precedence, assignment handling, and pipe
+syntax for T006.
