@@ -1,0 +1,1 @@
+fn bad(value: bool) -> int { if (value) { return 1; } }

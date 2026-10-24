@@ -1,0 +1,6 @@
+let values: int[] = [1, 2, 3];
+let total = 0;
+for (let i = 0; i < len(values); i = i + 1) {
+  total = total + values[i];
+}
+print(total);
