@@ -38,6 +38,7 @@ class Diagnostics {
 
  private:
   std::size_t max_errors_;
+  bool limit_reported_{false};
   std::vector<Diagnostic> diagnostics_;
 };
 

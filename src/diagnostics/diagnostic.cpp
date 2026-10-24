@@ -8,7 +8,18 @@
 namespace kite {
 
 void Diagnostics::add(Diagnostic diagnostic) {
-  if (diagnostics_.size() >= max_errors_ && diagnostic.severity == DiagnosticSeverity::Error) {
+  if (diagnostic.severity == DiagnosticSeverity::Error && error_count() >= max_errors_) {
+    if (!limit_reported_) {
+      diagnostics_.push_back(Diagnostic{
+          DiagnosticSeverity::Note,
+          "E999",
+          "maximum error limit reached; further errors suppressed",
+          Span::synthetic(),
+          {},
+          {},
+      });
+      limit_reported_ = true;
+    }
     return;
   }
   diagnostics_.push_back(std::move(diagnostic));
