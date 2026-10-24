@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T024 — complete negative test corpus**
+Current task: **T025 — fuzz smoke tests and sanitizer verification**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -27,8 +27,8 @@ Current task: **T024 — complete negative test corpus**
 | T021 | done | `feat/T021-arrays-floats-and-for` | `adaf3a6` | 57 default cases / 2 CTest tests pass |
 | T022 | done | `feat/T022-golden-test-fixtures` | `2346692` | 57 default cases / 5 CTest tests pass |
 | T023 | done | `feat/T023-end-to-end-runner` | `bc27066` | 57 default cases / 5 CTest tests / 3 corpus passes |
-| T024 | in progress | `feat/T024-negative-test-corpus` | — | pending |
-| T025 | not started | — | — | — |
+| T024 | done | `feat/T024-negative-test-corpus` | `1ad1c55` | 57 default cases / 5 CTest / 3 positive + 2 negative corpus passes |
+| T025 | in progress | `feat/T025-fuzz-and-sanitizers` | — | pending |
 | T026 | not started | — | — | — |
 | T027 | not started | — | — | — |
 | T028 | not started | — | — | — |
@@ -47,5 +47,4 @@ Current task: **T024 — complete negative test corpus**
 
 ## Next step
 
-Complete compile-time and runtime negative tests with exact diagnostic codes, locations, message
-fragments, and exit codes.
+Add deterministic bounded lexer/parser crash-resistance fuzzing and sanitizer build verification.
