@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T008 — symbol table and lexical scopes**
+Current task: **T009 — type system and semantic checker**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -11,8 +11,8 @@ Current task: **T008 — symbol table and lexical scopes**
 | T005 | done | `feat/T005-ast-and-printer` | `e313b89` | 13 default cases / 1 CTest pass |
 | T006 | done | `feat/T006-pratt-expression-parser` | `7427231` | 15 default cases / 1 CTest pass |
 | T007 | done | `feat/T007-statement-parser-and-recovery` | `efb20cb` | 21 default cases / 1 CTest pass |
-| T008 | in progress | `feat/T008-symbol-table-and-scopes` | — | pending |
-| T009 | not started | — | — | — |
+| T008 | done | `feat/T008-symbol-table-and-scopes` | `f434abe` | 24 default cases / 1 CTest pass |
+| T009 | in progress | `feat/T009-type-system-and-checker` | — | pending |
 | T010 | not started | — | — | — |
 | T011 | not started | — | — | — |
 | T012 | not started | — | — | — |
@@ -47,4 +47,5 @@ Current task: **T008 — symbol table and lexical scopes**
 
 ## Next step
 
-Implement lexical symbol scopes, shadowing, duplicate detection, and parent lookup for T008.
+Implement name resolution, local type inference, operator typing, calls, conditions, and return
+checking for T009.
