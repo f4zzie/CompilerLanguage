@@ -5,6 +5,7 @@
 #include "runtime/value.hpp"
 
 #include <optional>
+#include <ostream>
 #include <vector>
 
 namespace kite {
@@ -18,6 +19,8 @@ struct RuntimeError {
 struct VmOptions {
   bool trace{false};
   std::size_t max_stack{1024};
+  std::ostream* trace_stream{nullptr};
+  std::ostream* output_stream{nullptr};
 };
 
 struct VmResult {

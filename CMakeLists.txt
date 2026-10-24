@@ -58,6 +58,7 @@ if(KITE_BUILD_TESTS)
     tests/unit/sema_test.cpp
     tests/unit/bytecode_test.cpp
     tests/unit/codegen_test.cpp
+    tests/unit/vm_test.cpp
   )
   target_include_directories(kite_tests PRIVATE src third_party)
   target_link_libraries(kite_tests PRIVATE kite_lib)
