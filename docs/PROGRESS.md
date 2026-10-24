@@ -1,14 +1,14 @@
 # Kite implementation progress
 
-Current task: **T004 — token model and lexer**
+Current task: **T005 — AST definitions and canonical printer**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
 | T001 | done | `feat/T001-repo-foundations` | `86d471d` | 1 unit pass; walking gate intentionally pending |
 | T002 | done | `feat/T002-specification-and-adrs` | `2aa662f` | 1 unit pass |
 | T003 | done | `feat/T003-diagnostics` | `86f74b3` | 7 cases / 13 assertions; 1 CTest pass |
-| T004 | in progress | `feat/T004-token-model-and-lexer` | — | pending |
-| T005 | not started | — | — | — |
+| T004 | done | `feat/T004-token-model-and-lexer` | `d341459` | 11 default cases / 1 CTest pass |
+| T005 | in progress | `feat/T005-ast-and-printer` | — | pending |
 | T006 | not started | — | — | — |
 | T007 | not started | — | — | — |
 | T008 | not started | — | — | — |
@@ -47,5 +47,4 @@ Current task: **T004 — token model and lexer**
 
 ## Next step
 
-Implement the complete token model and cursor-based lexer with lexical diagnostics and deterministic
-token dumps for T004.
+Define the complete AST hierarchy and canonical printer used by parser golden tests for T005.
