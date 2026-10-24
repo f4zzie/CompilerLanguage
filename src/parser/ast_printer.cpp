@@ -156,6 +156,10 @@ void append_expr(std::ostringstream& output, const Expr& expression, std::size_t
     for (const auto& element : array->elements) {
       append_expr(output, *element, depth + 1);
     }
+  } else if (const auto* assignment = dynamic_cast<const AssignmentExpr*>(&expression)) {
+    append_node_header(output, depth, "AssignmentExpr", *assignment);
+    append_expr(output, *assignment->target, depth + 1);
+    append_expr(output, *assignment->value, depth + 1);
   } else if (const auto* index = dynamic_cast<const IndexExpr*>(&expression)) {
     append_node_header(output, depth, "IndexExpr", *index);
     append_expr(output, *index->object, depth + 1);

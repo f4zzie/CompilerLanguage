@@ -95,6 +95,11 @@ struct ArrayExpr final : Expr {
   std::vector<ExprPtr> elements;
 };
 
+struct AssignmentExpr final : Expr {
+  ExprPtr target;
+  ExprPtr value;
+};
+
 struct IndexExpr final : Expr {
   ExprPtr object;
   ExprPtr index;
