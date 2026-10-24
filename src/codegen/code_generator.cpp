@@ -88,7 +88,7 @@ class Emitter {
     }
     if (const auto* let = dynamic_cast<const LetStmt*>(&statement)) {
       emit_expression(*let->initializer);
-      if (current_function_ == 0) {
+      if (current_function_ == 0 && local_scopes_.size() == 1) {
         const auto slot = global_indices_.at(let->name);
         emit(OpCode::StoreGlobal, static_cast<std::int32_t>(slot), let->span);
       } else {
