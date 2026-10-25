@@ -1,5 +1,8 @@
 # Assumptions and change points
 
+Review date: October 25, 2026. The assignment rubric and platform execution environment were not
+supplied, so the following assumptions remain explicit rather than being presented as verified facts.
+
 | Assumption | Default used | How to change it |
 |---|---|---|
 | Native code requirement | No; bytecode plus VM is acceptable | If the assignment says native code, promote C-transpile to MUST in ADR-0002, add `src/target_c`, and replace the release schedule for VM-only extras. |
@@ -14,9 +17,14 @@
 | Source encoding | UTF-8 bytes; ASCII identifiers | Add Unicode identifier decoding only as a documented stretch feature. |
 | Error cap | 50 errors by default, configurable with `--max-errors` | Change `PipelineOptions` default and CLI parsing; preserve deterministic ordering. |
 
-## Open questions
+## Open questions and exceptions
 
-1. Confirm that the assignment accepts a custom bytecode VM; recommended answer: yes.
-2. Replace the placeholder deadline if the course provides a different date.
-3. Paste the grading rubric before M0 ends so traceability can be made exact.
-4. Confirm whether the instructor requires a source-level `main` function; recommended answer: synthetic top-level `__main`.
+1. Confirm that the assignment accepts a custom bytecode VM; local implementation assumes yes.
+2. Replace the placeholder deadline if the course provides a different date; the local plan uses
+   December 5, 2026.
+3. Replace the generic rubric rows when the official rubric is supplied; no official rubric was
+   available during this review.
+4. Confirm whether the instructor requires a source-level `main` function; local implementation uses
+   synthetic top-level `__main`.
+5. Run the macOS, Windows/MSVC, PowerShell, and GitHub Actions paths in their native environments;
+   only Linux execution was available during this review.

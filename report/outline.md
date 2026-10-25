@@ -1,7 +1,7 @@
 # Kite report outline
 
-This outline is the working structure for the final course report. Replace each heading with
-evidence from the finished repository after M7.
+This outline is the final structure for the course report; the repository evidence and limitations are
+listed in `report/evidence.md` and `docs/FINAL-STATUS.md`.
 
 1. Problem statement and goals
 2. Language philosophy and feature tiers

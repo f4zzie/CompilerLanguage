@@ -103,9 +103,9 @@ cmake --preset linux-asan
 cmake --build --preset linux-asan
 ```
 
-The core pipeline now compiles and runs the walking skeleton through the lexer, parser, semantic
-checker, bytecode generator, and VM. Remaining work covers the larger language feature set and
-hardening tasks.
+The compiler now runs the complete planned MUST pipeline and the implemented SHOULD features through
+the lexer, parser, semantic checker, bytecode generator, and VM. Release evidence and known limits are
+recorded in [`docs/FINAL-STATUS.md`](docs/FINAL-STATUS.md).
 
 ### Run the tests
 
@@ -123,7 +123,7 @@ On Windows, use `powershell -ExecutionPolicy Bypass -File scripts/test-all.ps1`.
 
 ## Compiler commands
 
-After the walking skeleton is complete, the CLI will support:
+The CLI supports:
 
 ```sh
 ./build/linux-debug/kite run examples/hello.kite
@@ -176,8 +176,9 @@ docs/                 specification, architecture, decisions, plans, and task ca
 ## Current status
 
 The repository contains a working C++20 compiler pipeline, a stack VM, golden tests, end-to-end
-corpora, fuzz smoke coverage, and showcase examples. The remaining release work is evidence capture,
-documentation polish, and packaging.
+corpora, fuzz smoke coverage, showcase examples, release evidence, and a validated submission package.
+The remaining limitations and unverified platform paths are listed in
+[`docs/FINAL-STATUS.md`](docs/FINAL-STATUS.md).
 
 ## Limitations and roadmap
 
@@ -198,11 +199,7 @@ documentation polish, and packaging.
 - [`docs/task-cards/`](docs/task-cards/) — independently executable 2–8 hour tasks.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — branches, commits, review, and ownership.
 
-## First task
+## Release review
 
-```sh
-git switch -c feat/T001-repo-foundations
-```
-
-Then complete [`docs/task-cards/T001-repo-foundations.md`](docs/task-cards/T001-repo-foundations.md)
-before starting front-end implementation.
+Use [`docs/FINAL-STATUS.md`](docs/FINAL-STATUS.md), [`docs/CODE-WALKTHROUGH.md`](docs/CODE-WALKTHROUGH.md),
+and [`report/outline.md`](report/outline.md) for the final review and presentation flow.

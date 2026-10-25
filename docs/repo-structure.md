@@ -14,6 +14,8 @@
 ├── cmake/README.md                Notes for future reusable CMake modules.
 ├── docs/                          Specification, architecture, process, and task cards.
 │   ├── PROGRESS.md                Resumable task status and next step.
+│   ├── FINAL-STATUS.md            Evidence-backed final status and limitations.
+│   ├── CODE-WALKTHROUGH.md        Student presentation and oral-exam guide.
 │   ├── assumptions.md             Defaults for missing assignment information.
 │   ├── architecture.md            Pipeline contracts, VM, opcode table, extension recipes.
 │   ├── coding-standards.md        Source and collaboration conventions.
@@ -46,6 +48,11 @@
 │   ├── build.ps1                  Configure and build PowerShell Debug.
 │   ├── build.bat                  Configure and build Windows Debug from cmd.exe.
 │   ├── test-all                   Build and run CTest plus corpus runner.
+│   ├── check-examples.py          Compare every example with its expected output.
+│   ├── run-corpus.py              Run positive end-to-end fixtures.
+│   ├── run-errors.py              Run negative fixtures and exit-code checks.
+│   ├── check-package.py           Validate submission archive manifest.
+│   ├── self-review.py             Validate final required paths and task IDs.
 │   ├── test-all.ps1               PowerShell equivalent.
 │   ├── test-all.bat               cmd.exe equivalent.
 │   ├── format.sh                  Run clang-format over C++ sources.

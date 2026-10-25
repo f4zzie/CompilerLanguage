@@ -2,6 +2,6 @@
 
 namespace kite {
 
-// TODO(T020): add an optional linear IR and optimization passes if the MUST tier is complete.
+// Optional linear IR and optimization passes remain future work after the completed MUST/SHOULD tiers.
 
 }  // namespace kite
