@@ -15,7 +15,12 @@ def main() -> int:
         unit_assertions += len(re.findall(r"\b(?:CHECK|REQUIRE)(?:_FALSE|_MESSAGE|_THROWS|_EQ|_NE)?\s*\(", text))
     golden = 3
     e2e = len(list((ROOT / "examples").glob("*.kite"))) + len(list((ROOT / "tests/programs").glob("*.src"))) + 1
-    negative = len(list((ROOT / "tests/errors").glob("*.src"))) + len(list((ROOT / "tests/errors").glob("*.kite")))
+    error_sources = [*((ROOT / "tests/errors").glob("*.src")), *((ROOT / "tests/errors").glob("*.kite"))]
+    negative = sum(
+        1
+        for path in error_sources
+        if path.with_suffix(".expected").exists() and path.with_suffix(".exitcode").exists()
+    )
     fuzz = 1000
     print("kind,cases,assertions")
     print(f"unit,{unit_cases},{unit_assertions}")
