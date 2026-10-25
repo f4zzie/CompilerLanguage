@@ -11,7 +11,8 @@ The final demonstration should take 8–10 minutes and use a clean Debug build.
 4. Run `examples/conditionals.kite` and `examples/loops.kite` for control flow.
 5. Run `examples/recursion.kite` to demonstrate functions, returns, and call frames.
 6. Run `kite tokens`, `kite ast`, and `kite disasm` on the recursion example to expose each stage.
-7. Run `examples/pipe.kite --trace` to demonstrate the SHOULD distinctive feature and VM stack.
+7. Run `examples/float.kite`, `examples/arrays-for.kite`, and `examples/pipe.kite --trace` to
+   demonstrate all four implemented SHOULD features: floats, arrays, C-style `for`, and pipe.
 8. Run `tests/errors/type-mismatch.kite` and `tests/errors/division-by-zero.kite` to show compile-
    time and runtime diagnostics with exit codes.
 9. Run CTest and show the final submission archive contents.
@@ -20,8 +21,8 @@ The runnable smoke script is `report/demo-smoke.sh`; its PowerShell counterpart 
 `report/demo-smoke.ps1`. Linux execution of the shell script is the verified path; PowerShell and
 Windows execution remain unverified.
 
-If a SHOULD feature is cut, replace the pipe demo with `kite disasm` plus the diagnostic demo; the
-MUST presentation remains complete.
+All four planned SHOULD features are currently implemented. If a future regression forces a cut,
+remove that feature from the language-feature table and this demo step before making a release claim.
 
 ## Report outline
 

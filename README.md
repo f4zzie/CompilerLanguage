@@ -34,8 +34,8 @@ one reproducible repository rather than as disconnected experiments.
 
 The compiler avoids parser generators, LLVM bindings, CLI frameworks, and large dependencies. CMake
 and CTest provide the build/test interface, while the upstream doctest v2.5.3 single header supports
-unit tests. The MUST tier is designed to remain achievable by one student; arrays, floats, and the
-pipe operator are optional SHOULD work and must not delay the core compiler.
+unit tests. All four planned SHOULD features are implemented and covered without changing the MUST
+language contract.
 
 ## Language features
 
@@ -50,10 +50,11 @@ pipe operator are optional SHOULD work and must not delay the core compiler.
 - `tokens`, `ast`, `disasm`, `check`, `build`, and `run` CLI commands.
 - VM `--trace` mode for demonstrations.
 
-### SHOULD
+### SHOULD — implemented
 
-- C-style `for` loops.
-- Floats and arrays.
+- C-style `for` loops, including initialization, condition, increment, and block scope.
+- Floats with arithmetic/comparison support.
+- Arrays with construction, indexing, and `len`.
 - The distinctive pipe operator: `5 |> double |> print`.
 
 ### Stretch and future work
@@ -187,7 +188,8 @@ The remaining limitations and unverified platform paths are listed in
   promotes the C-transpile backend to MUST.
 - The real assignment rubric has not been supplied; generic compiler-course criteria are mapped in
   [`docs/rubric-traceability.md`](docs/rubric-traceability.md).
-- Arrays, floats, and `|>` are SHOULD features and are cut before any MUST feature.
+- All four planned SHOULD features—arrays, floats, `for`, and `|>`—are implemented. Array mutation is
+  intentionally outside the current contract.
 - A REPL, closures, modules, records, optimization passes, and a full debugger are future work.
 
 ## Documentation
