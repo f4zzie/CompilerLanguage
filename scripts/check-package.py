@@ -33,6 +33,8 @@ def main() -> int:
         or name.startswith(".cache/")
         or name.endswith(".pyc")
         or "/__pycache__/" in name
+        or name == ".DS_Store"
+        or name.endswith("/.DS_Store")
     )
     if missing or forbidden:
         print(f"missing={missing} forbidden={forbidden}", file=sys.stderr)
