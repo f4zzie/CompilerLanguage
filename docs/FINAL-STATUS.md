@@ -90,6 +90,9 @@ CTest also passed, and `scripts/self-review.py` passed after the final documenta
   seconds before and 1.554633 seconds after, a 51.24% reduction, with output still exactly `832040`.
 - Release archive SHA-256 is recorded in the generated, ignored sidecar `submission.zip.sha256`.
   The package script creates the archive, validates its manifest, and writes this sidecar.
+- The package script explicitly excludes build output, `.git` data, logs, profiling output, caches,
+  Python bytecode, the archive itself, and its checksum sidecar. Final archive verification reports no
+  forbidden entries and a clean extraction Debug build.
 
 ## Autonomous decisions and contract changes
 

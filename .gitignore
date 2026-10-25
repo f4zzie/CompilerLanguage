@@ -10,3 +10,5 @@ compile_commands.json
 coverage/
 submission.zip
 submission.zip.sha256
+gmon.out
+*.prof
