@@ -74,8 +74,7 @@ python3 scripts/self-review.py
 Observed on October 25, 2026: Debug CTest 7/7, Release CTest 7/7, and ASan/UBSan CTest 7/7 passed;
 each suite includes the unit tests, walking skeleton, fuzz smoke, examples corpus, and three golden
 tests. The automated negative corpus contains seven fixtures with exit-code and stderr assertions.
-The package manifest check reported 280 archive entries before the final four-fixture expansion. A
-clean extraction Debug build and
+The final package manifest check reported 296 archive entries. A clean extraction Debug build and
 CTest also passed, and `scripts/self-review.py` passed after the final documentation checks.
 
 ## Performance evidence
