@@ -23,7 +23,16 @@ def main() -> int:
         names = {name.rstrip("/") for name in archive.namelist()}
     missing = sorted(REQUIRED - names)
     forbidden = sorted(
-        name for name in names if name.startswith("build/") or name.startswith(".git/") or name.endswith(".log")
+        name
+        for name in names
+        if name.startswith("build/")
+        or name.startswith(".git/")
+        or name.endswith(".log")
+        or name == "gmon.out"
+        or name.endswith(".prof")
+        or name.startswith(".cache/")
+        or name.endswith(".pyc")
+        or "/__pycache__/" in name
     )
     if missing or forbidden:
         print(f"missing={missing} forbidden={forbidden}", file=sys.stderr)
