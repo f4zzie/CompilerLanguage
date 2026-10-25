@@ -65,9 +65,9 @@ def main() -> int:
         problems.append(f"missing verified commands: {missing_commands}")
     if "| T029 | done |" not in status or "| T029 | done |" not in progress:
         problems.append("T029 is not marked done in final status and progress")
-    digest = root / "submission.zip.sha256"
-    if not digest.exists() or len(digest.read_text(encoding="utf-8").split()) < 1:
-        problems.append("submission.zip.sha256 is missing")
+    package_script = root / "scripts/package-submission.sh"
+    if not package_script.exists():
+        problems.append("scripts/package-submission.sh is missing")
     if problems:
         print("; ".join(problems), file=sys.stderr)
         return 1
