@@ -22,7 +22,7 @@ modules, and optimization passes remain stretch or future work.
 | `docs/error-and-diagnostics.md` | Error codes and rendering contract |
 | `docs/coding-standards.md` | C++ and collaboration conventions |
 | `docs/risk-register.md` | Risks, triggers, and mitigations |
-| `docs/rubric-traceability.md` | Generic rubric mapping until the real rubric arrives |
+| `docs/rubric-traceability.md` | Evidence-backed generic rubric mapping until the real rubric arrives |
 | `docs/demo-and-report-plan.md` | Final demo, report, and submission plan |
 | `docs/PROGRESS.md` | Resumable implementation status |
 | `docs/decisions/` | Architecture decision records |
@@ -70,8 +70,10 @@ test and documentation work.
 - [x] The pipe operator is in exactly one tier: SHOULD.
 - [x] Demo and report plans reference files under `examples/`.
 
-## Current implementation boundary
+## Final implementation boundary
 
-The scaffold intentionally does not implement language behavior. `TODO(Txxx)` comments identify
-the task card that will replace each stub. The build is expected to pass; the walking-skeleton
-CTest entry is expected to fail until T014.
+The MUST pipeline and planned SHOULD features are implemented. The remaining documented boundary is
+intentional: the VM is the execution backend, `build -o` emits deterministic disassembly text rather
+than a serialized module, and stretch work such as a REPL, records, closures, modules, optimization,
+and a C backend is not included. `docs/FINAL-STATUS.md` records the verified commands, evidence gaps,
+platform limits, and release decisions.

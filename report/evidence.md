@@ -9,4 +9,5 @@
 - [x] `kite run tests/errors/division-by-zero.kite`: exit 3 with `runtime[R001]` diagnostic.
 - [x] Positive corpus: 3 programs; negative corpus: 2 fixtures with exit-code/stderr assertions; golden: 3 snapshots; examples: 12.
 - [x] SHOULD features implemented: floats, arrays, `for`, pipe operator, and trace output.
-- [x] Release performance sample: `fib(30)` produced `832040` in 11.479 seconds on this host; the Debug 1,000-line timing was not recorded because the first attempted measurement used unavailable `/usr/bin/time` and the later combined process exceeded the command timeout.
+- [x] Release performance sample: `fib(30)` produced `832040` in 5.243115 seconds on this host.
+- [x] Debug compile/run smoke: a generated 1,001-line program produced `999` in 0.077898 seconds.

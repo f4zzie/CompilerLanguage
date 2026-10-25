@@ -1,6 +1,6 @@
 # Demo and report plan
 
-## Demo sequence (DRAFT)
+## Demo sequence
 
 The final demonstration should take 8–10 minutes and use a clean Debug build.
 
@@ -45,9 +45,10 @@ MUST presentation remains complete.
 - Table of positive, negative, and golden test counts.
 - Clean-machine build commands and exact compiler version.
 
-## Submission package (DRAFT)
+## Submission package
 
 The release archive contains source, `CMakeLists.txt`, presets, scripts, docs, tests, examples,
 third-party doctest header, and the report PDF or Markdown required by the course. It excludes
 `build/`, editor settings, credentials, and local logs. `scripts/package-submission.sh` or its
-PowerShell equivalent will create the archive after T028.
+PowerShell equivalent creates the archive and validates its manifest; the generated
+`submission.zip.sha256` sidecar records the archive digest.

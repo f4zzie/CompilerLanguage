@@ -51,7 +51,8 @@ graph TD
   T023 --> T026[T026 README and docs]
   T025 --> T027[T027 demo and report]
   T026 --> T027
-  T027 --> T028[T028 submission package]
+   T027 --> T028[T028 submission package]
+   T028 --> T029[T029 final self-review]
 ```
 
 ## Staffing plans

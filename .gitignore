@@ -9,3 +9,4 @@ compile_commands.json
 *.log
 coverage/
 submission.zip
+submission.zip.sha256
