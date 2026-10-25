@@ -1,0 +1,2 @@
+fn loop(n: int) -> int { return loop(n + 1); }
+print(loop(0));
