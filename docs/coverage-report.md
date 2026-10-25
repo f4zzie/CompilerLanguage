@@ -9,11 +9,14 @@ checks per fixture. Fuzz counts the deterministic 1,000-input smoke workload.
 | Unit | 57 | 180 |
 | Golden | 3 | 3 |
 | End-to-end | 16 | 32 |
-| Negative | 26 | 52 |
+| Negative | 7 | 14 |
 | Fuzz | 1 workload | 1,000 inputs |
 
 End-to-end includes 12 showcase examples, 3 positive corpus programs, and the walking-skeleton
-process test. Negative includes 25 existing error fixtures plus the R004 call-stack-overflow fixture.
+process test. Negative counts only source fixtures with both `.expected` and `.exitcode` files, so the
+automated negative corpus currently contains three pre-existing fixtures plus four additional
+source-level programs. Other diagnostic source examples remain available for manual or future corpus
+coverage.
 
 ## Error-code coverage
 

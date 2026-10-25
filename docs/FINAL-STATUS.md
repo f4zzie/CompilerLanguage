@@ -73,21 +73,27 @@ python3 scripts/self-review.py
 
 Observed on October 25, 2026: Debug CTest 7/7, Release CTest 7/7, and ASan/UBSan CTest 7/7 passed;
 each suite includes the unit tests, walking skeleton, fuzz smoke, examples corpus, and three golden
-tests. The package manifest check reported 272 archive entries. A clean extraction Debug build and
+tests. The automated negative corpus contains seven fixtures with exit-code and stderr assertions.
+The package manifest check reported 280 archive entries before the final four-fixture expansion. A
+clean extraction Debug build and
 CTest also passed, and `scripts/self-review.py` passed after the final documentation checks.
 
 ## Performance evidence
 
-- `fib(30)` in Release produced `832040` in 5.243115 seconds on the Linux host used for verification.
-- A generated 1,001-line Debug program produced `999` in 0.077898 seconds.
+Method: every reported benchmark timing is the median of five consecutive wall-clock
+runs of `./build/release/kite run benchmarks/fib30.kite`; each run must exit successfully and print
+exactly `832040`.
 - The deterministic fuzz smoke runs 1,000 arbitrary byte inputs and passes in Debug and ASan builds.
+- The gprof timings below are single instrumented profiling samples, retained only to identify
+  hotspots and not used as benchmark timing results.
 - Performance re-measurement on October 25, 2026 used `/usr/bin/gprof` with a Release `-pg` build and
   `benchmarks/fib30.kite`. Before the change, `Vm::run` accounted for 62.82% of sampled self time,
   with `Span` copies and the `std::variant` equality visitor each at 11.54%; the instrumented run
   took 3.404 seconds. The safe VM change keeps the instruction in a const reference and moves values
   out of the operand stack when popping. Afterward, the same instrumented run took 2.613 seconds;
-  `Vm::run` was 43.84% of sampled self time. Five native Release runs measured medians of 3.188692
-  seconds before and 1.554633 seconds after, a 51.24% reduction, with output still exactly `832040`.
+  `Vm::run` was 43.84% of sampled self time. The five-run native Release median was 3.188692
+  seconds before the change and 1.461218 seconds at the final verification point, a 54.18% reduction,
+  with output still exactly `832040`.
 - Release archive SHA-256 is recorded in the generated, ignored sidecar `submission.zip.sha256`.
   The package script creates the archive, validates its manifest, and writes this sidecar.
 - The package script explicitly excludes build output, `.git` data, logs, profiling output, caches,
@@ -120,4 +126,3 @@ CTest also passed, and `scripts/self-review.py` passed after the final documenta
 - Supply the official grading rubric and replace generic traceability rows.
 - Review the report and demo materials in the team's own words.
 - Decide whether the text `build -o` artifact satisfies the assignment or must become serialized bytecode.
-- Review the 11.479-second Release `fib(30)` result against the course performance expectation.
