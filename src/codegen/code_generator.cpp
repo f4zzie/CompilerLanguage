@@ -165,7 +165,8 @@ class Emitter {
     if (const auto* literal = dynamic_cast<const LiteralExpr*>(&expression)) {
       switch (literal->kind) {
         case LiteralKind::Integer:
-          emit(OpCode::Constant, add_constant(std::stoll(literal->text)), literal->span);
+          emit(OpCode::Constant,
+               add_constant(static_cast<std::int64_t>(std::stoll(literal->text))), literal->span);
           break;
         case LiteralKind::Float:
           emit(OpCode::Constant, add_constant(std::stod(literal->text)), literal->span);
@@ -305,8 +306,23 @@ class Emitter {
     }
   }
 
-  std::int32_t add_constant(Constant constant) {
-    module_.constants.push_back(std::move(constant));
+  std::int32_t add_constant(std::int64_t value) {
+    module_.constants.emplace_back(value);
+    return static_cast<std::int32_t>(module_.constants.size() - 1);
+  }
+
+  std::int32_t add_constant(double value) {
+    module_.constants.emplace_back(value);
+    return static_cast<std::int32_t>(module_.constants.size() - 1);
+  }
+
+  std::int32_t add_constant(bool value) {
+    module_.constants.emplace_back(value);
+    return static_cast<std::int32_t>(module_.constants.size() - 1);
+  }
+
+  std::int32_t add_constant(const std::string& value) {
+    module_.constants.emplace_back(value);
     return static_cast<std::int32_t>(module_.constants.size() - 1);
   }
 
