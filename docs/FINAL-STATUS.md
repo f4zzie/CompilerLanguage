@@ -2,7 +2,8 @@
 
 ## Overall result
 
-The MUST compiler pipeline and all planned SHOULD language features are implemented on Linux. The
+The MUST compiler pipeline and all four planned SHOULD language features—floats, arrays, C-style
+`for`, and `|>`—are implemented on Linux. The
 repository is clean at the release boundary and the Debug, Release, and ASan/UBSan CTest suites are
 green. STRETCH work (REPL, records,
 closures, modules, optimizer, and C backend) was not started.
@@ -40,6 +41,15 @@ closures, modules, optimizer, and C backend) was not started.
 | T027 | done | f42a591 |
 | T028 | done | 6721fd8 |
 | T029 | done | f18d961 |
+
+## SHOULD feature status
+
+| Feature | Status | Evidence |
+|---|---|---|
+| Floats | implemented | `examples/float.kite`, `tests/unit/arrays_for_test.cpp` |
+| Arrays | implemented | `examples/arrays-for.kite`, `tests/unit/arrays_for_test.cpp` |
+| C-style `for` | implemented | `examples/arrays-for.kite`, `tests/unit/arrays_for_test.cpp` |
+| `|>` pipe | implemented | `examples/pipe.kite`, `tests/unit/pipe_test.cpp` |
 
 ## Verified commands
 
