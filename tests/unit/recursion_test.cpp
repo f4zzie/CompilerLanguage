@@ -10,7 +10,7 @@
 
 namespace {
 
-std::string run_source(std::string_view source, bool* success = nullptr) {
+std::string run_source(std::string_view source, bool* success = nullptr, std::string* error_code = nullptr) {
   kite::Diagnostics diagnostics;
   kite::Lexer lexer;
   const auto tokens = lexer.scan("<test>", source, diagnostics);
@@ -28,6 +28,7 @@ std::string run_source(std::string_view source, bool* success = nullptr) {
   kite::Vm vm(kite::VmOptions{false, 1024, nullptr, &output});
   const auto result = vm.run(module);
   if (success != nullptr) *success = result.success;
+  if (error_code != nullptr && result.error.has_value()) *error_code = result.error->code;
   return output.str();
 }
 
@@ -57,6 +58,8 @@ TEST_CASE("missing return is rejected") {
 
 TEST_CASE("recursive calls have a bounded call stack") {
   bool success = true;
-  run_source("fn loop(n: int) -> int { return loop(n + 1); } print(loop(0));", &success);
+  std::string error_code;
+  run_source("fn loop(n: int) -> int { return loop(n + 1); } print(loop(0));", &success, &error_code);
   CHECK_FALSE(success);
+  CHECK(error_code == "R004");
 }
