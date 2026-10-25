@@ -71,6 +71,13 @@ CTest also passed, and `scripts/self-review.py` passed after the final documenta
 - `fib(30)` in Release produced `832040` in 5.243115 seconds on the Linux host used for verification.
 - A generated 1,001-line Debug program produced `999` in 0.077898 seconds.
 - The deterministic fuzz smoke runs 1,000 arbitrary byte inputs and passes in Debug and ASan builds.
+- Performance re-measurement on October 25, 2026 used `/usr/bin/gprof` with a Release `-pg` build and
+  `benchmarks/fib30.kite`. Before the change, `Vm::run` accounted for 62.82% of sampled self time,
+  with `Span` copies and the `std::variant` equality visitor each at 11.54%; the instrumented run
+  took 3.404 seconds. The safe VM change keeps the instruction in a const reference and moves values
+  out of the operand stack when popping. Afterward, the same instrumented run took 2.613 seconds;
+  `Vm::run` was 43.84% of sampled self time. Five native Release runs measured medians of 3.188692
+  seconds before and 1.554633 seconds after, a 51.24% reduction, with output still exactly `832040`.
 - Release archive SHA-256 is recorded in the generated, ignored sidecar `submission.zip.sha256`.
   The package script creates the archive, validates its manifest, and writes this sidecar.
 

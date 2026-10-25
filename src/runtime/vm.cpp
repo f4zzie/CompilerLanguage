@@ -142,7 +142,7 @@ VmResult Vm::run(const BytecodeModule& module) {
     if (stack_.empty()) {
       return std::nullopt;
     }
-    Value value = stack_.back();
+    Value value = std::move(stack_.back());
     stack_.pop_back();
     (void)span;
     return value;
@@ -153,7 +153,7 @@ VmResult Vm::run(const BytecodeModule& module) {
     if (frame.ip >= module.instructions.size()) {
       return fail("R006", "instruction pointer is outside bytecode", Span::synthetic());
     }
-    const auto instruction = module.instructions[frame.ip++];
+    const auto& instruction = module.instructions[frame.ip++];
     if (options_.trace) {
       trace << frame.ip - 1 << ' ' << opcode_name(instruction.opcode) << ' ' << stack_text(stack_) << '\n';
     }
