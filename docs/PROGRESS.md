@@ -32,7 +32,7 @@ Current task: **T029 — final self-review and rubric traceability update**
 | T026 | done | `feat/T026-readme-and-example-corpus` | `868ea6a` | 57 default cases / 7 CTest / 12 examples pass |
 | T027 | done | `feat/T027-demo-and-report` | `f42a591` | 7 CTest tests / demo materials updated |
 | T028 | done | `feat/T028-submission-package` | `6721fd8` | package manifest ok: 269 entries |
-| T029 | done | `feat/T029-final-self-review-and-rubric-update` | release branch | Debug/Release/ASan, package, clean extraction, and self-review green |
+| T029 | done | `feat/T029-final-self-review-and-rubric-update` | `f18d961` | Debug/Release/ASan, package, clean extraction, and self-review green |
 
 ## Decisions made
 
@@ -48,5 +48,5 @@ Current task: **T029 — final self-review and rubric traceability update**
 
 ## Release boundary
 
-T029 is complete on the feature branch. The remaining repository operation is to commit the final
-review, merge it into `main`, create the local `v1.0-local` tag, and verify that `main` is clean.
+T029 is merged into `main`. The remaining repository operation is to create the local `v1.0-local`
+tag and verify that `main` is clean.
