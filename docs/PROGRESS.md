@@ -35,7 +35,7 @@ Current task: **Post-release verification, CI repair, and presentation preparati
 | T029 | done | `feat/T029-final-self-review-and-rubric-update` | `f18d961` | Debug/Release/ASan, package, clean extraction, and self-review green |
 | Post-release verification | done | `fix/self-review-fresh-clone` | `79b0191` | fresh-clone Linux verification green; self-review no longer requires ignored artifacts |
 | CI repair | done | `fix/windows-gcc-warning` | `306898a` | GitHub Actions Ubuntu/macOS/Windows all green on run `40220486356` |
-| Presentation preparation | done | `docs/presentation-prep` | pending final merge | study guide, exercises, oral exam, and demo script added |
+| Presentation preparation | done | `docs/presentation-prep` | `0e6fe27` | study guide, exercises, oral exam, and demo script added |
 
 ## Decisions made
 
@@ -52,6 +52,5 @@ Current task: **Post-release verification, CI repair, and presentation preparati
 
 ## Release boundary
 
-The published `v1.0` tag remains unchanged. Post-release fixes and presentation materials are being
-merged after it; if those changes alter release contents, the final commit receives an annotated
-`v1.0.1` tag rather than moving `v1.0`.
+The published `v1.0` tag remains unchanged. Post-release fixes and presentation materials are merged
+after it at `main`; the final commit receives the annotated `v1.0.1` tag rather than moving `v1.0`.

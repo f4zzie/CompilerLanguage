@@ -74,7 +74,7 @@ python3 scripts/self-review.py
 Observed on October 25, 2026: Debug CTest 7/7, Release CTest 7/7, and ASan/UBSan CTest 7/7 passed;
 each suite includes the unit tests, walking skeleton, fuzz smoke, examples corpus, and three golden
 tests. The automated negative corpus contains seven fixtures with exit-code and stderr assertions.
-The final package manifest check reported 296 archive entries. A clean extraction Debug build and
+The final package manifest check reported 300 archive entries. A clean extraction Debug build and
 CTest also passed, and `scripts/self-review.py` passed after the final documentation checks.
 
 ## Post-release verification
@@ -100,6 +100,9 @@ The Windows failure in the preceding runs was a MinGW `-Werror=maybe-uninitializ
 explicit integer conversion fixed the root cause without weakening warnings or tests. No CI matrix
 job was removed. Native macOS/Windows execution outside GitHub-hosted runners remains **not verified**
 in this Linux environment.
+
+The post-release verification, CI repair, and presentation materials are released at the annotated
+`v1.0.1` tag. The original published `v1.0` tag remains immutable at its original commit.
 
 ## Performance evidence
 
