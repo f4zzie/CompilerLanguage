@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **T029 — final self-review and rubric traceability update**
+Current task: **Post-release verification, CI repair, and presentation preparation**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -33,6 +33,9 @@ Current task: **T029 — final self-review and rubric traceability update**
 | T027 | done | `feat/T027-demo-and-report` | `f42a591` | 7 CTest tests / demo materials updated |
 | T028 | done | `feat/T028-submission-package` | `6721fd8` | package manifest ok: 269 entries |
 | T029 | done | `feat/T029-final-self-review-and-rubric-update` | `f18d961` | Debug/Release/ASan, package, clean extraction, and self-review green |
+| Post-release verification | done | `fix/self-review-fresh-clone` | `79b0191` | fresh-clone Linux verification green; self-review no longer requires ignored artifacts |
+| CI repair | done | `fix/windows-gcc-warning` | `306898a` | GitHub Actions Ubuntu/macOS/Windows all green on run `40220486356` |
+| Presentation preparation | done | `docs/presentation-prep` | pending final merge | study guide, exercises, oral exam, and demo script added |
 
 ## Decisions made
 
@@ -43,10 +46,12 @@ Current task: **T029 — final self-review and rubric traceability update**
 
 ## Blockers
 
-- None for the verified Linux release path. Native macOS/Windows execution and the official rubric
-  remain unavailable in this environment and are documented exceptions.
+- None for the verified Linux release path or GitHub Actions matrix. Native macOS/Windows execution
+  outside GitHub-hosted runners and the official rubric remain unavailable in this environment and are
+  documented as **not verified** exceptions.
 
 ## Release boundary
 
-T029 is merged into `main`. The remaining repository operation is to create the local `v1.0-local`
-tag and verify that `main` is clean.
+The published `v1.0` tag remains unchanged. Post-release fixes and presentation materials are being
+merged after it; if those changes alter release contents, the final commit receives an annotated
+`v1.0.1` tag rather than moving `v1.0`.

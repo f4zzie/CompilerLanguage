@@ -29,3 +29,12 @@ The definition of done is that the complete default CTest suite passes, includin
 - [ ] The full CTest suite passes, including `walking_skeleton`.
 - [ ] No generated build output or private data is committed.
 - [ ] Diagnostics, dump formats, and examples remain deterministic.
+
+## Release and CI verification
+
+- GitHub Actions must be green on `ubuntu-latest`, `macos-latest`, and `windows-latest`; do not remove
+  a platform from the matrix to hide a failure.
+- A fresh clone must be able to run `python3 scripts/self-review.py` without ignored build or package
+  artifacts. Generated archives may be validated separately when present.
+- If a release-content fix lands after `v1.0`, keep `v1.0` immutable and create an annotated patch
+  tag such as `v1.0.1` at the final commit.
