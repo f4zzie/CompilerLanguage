@@ -23,6 +23,7 @@ contracts.
 - [Current status](#current-status)
 - [Limitations and roadmap](#limitations-and-roadmap)
 - [Documentation](#documentation)
+- [Presentation preparation](#presentation-preparation)
 
 ---
 
@@ -200,6 +201,16 @@ The remaining limitations and unverified platform paths are listed in
 - [`docs/milestones.md`](docs/milestones.md) — schedule, dependencies, and weekly cadence.
 - [`docs/task-cards/`](docs/task-cards/) — independently executable 2–8 hour tasks.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — branches, commits, review, and ownership.
+
+## Presentation preparation
+
+- [`docs/STUDY-GUIDE.md`](docs/STUDY-GUIDE.md) — ten commands that walk through tokens, AST, bytecode,
+  VM trace, diagnostics, recursion, and the implemented SHOULD features.
+- [`docs/EXERCISES.md`](docs/EXERCISES.md) — six extension exercises with files, first tests, answers,
+  and scratch-branch verification results.
+- [`docs/ORAL-EXAM.md`](docs/ORAL-EXAM.md) — likely defense questions grounded in the source tree.
+- [`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.md) — a timed 7–10 minute demo with expected output and
+  live fallback steps.
 
 ## Release review
 

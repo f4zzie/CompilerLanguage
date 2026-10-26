@@ -5,7 +5,7 @@
 | RISK-01 | Assignment later requires native code | Medium | Critical | Rubric mentions machine/native output | Verify in M0; promote C transpiler to MUST and cut all SHOULD work. |
 | RISK-02 | Scope grows beyond six weeks | High | High | New feature requested after M2 | Enforce tiers; cut arrays, floats, pipe, fuzzing, then cosmetic output. |
 | RISK-03 | Parser and semantic contracts drift | Medium | High | Tests require ad-hoc AST fields | Freeze headers in M0; use AST golden tests before backend work. |
-| RISK-04 | Cross-platform warning/build mismatch | Medium | Medium | CI fails on macOS or MSVC only | Build on all three OSes in CI; avoid OS APIs; keep scripts duplicated and simple. |
+| RISK-04 | Cross-platform warning/build mismatch | Medium | Medium | CI fails on macOS or MSVC only | Resolved for the October 25, 2026 run after the MinGW `std::variant` warning fix; keep all three CI jobs and label native local execution as not verified. |
 | RISK-05 | VM call-frame bugs break recursion | Medium | High | Factorial/Fibonacci fail or corrupt stack | Handcrafted bytecode VM tests, stack-height assertions, and sanitizer runs. |
 | RISK-06 | Diagnostics arrive too late | Medium | High | Front end works but errors lack spans | Finish diagnostics before lexer/parser; require a negative test per code. |
 | RISK-07 | Upstream test framework upgrade changes CLI behavior | Low | Medium | Unit runner filters or assertions stop working after an upgrade | Pin the official header version in `third_party/doctest/README.md` and verify CTest filters in CI. |

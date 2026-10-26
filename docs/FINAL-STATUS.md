@@ -3,9 +3,9 @@
 ## Overall result
 
 The MUST compiler pipeline and all four planned SHOULD language features—floats, arrays, C-style
-`for`, and `|>`—are implemented on Linux. The
-repository is clean at the release boundary and the Debug, Release, and ASan/UBSan CTest suites are
-green. STRETCH work (REPL, records,
+`for`, and `|>`—are implemented. The repository is clean at the post-release verification boundary;
+the Debug, Release, and ASan/UBSan CTest suites are green, and GitHub Actions verifies Ubuntu,
+macOS, and Windows builds. STRETCH work (REPL, records,
 closures, modules, optimizer, and C backend) was not started.
 
 ## Task status
@@ -77,6 +77,30 @@ tests. The automated negative corpus contains seven fixtures with exit-code and 
 The final package manifest check reported 296 archive entries. A clean extraction Debug build and
 CTest also passed, and `scripts/self-review.py` passed after the final documentation checks.
 
+## Post-release verification
+
+On October 26, 2026, a fresh clone from `origin/main` was verified independently. Debug, Release, and
+Linux ASan/UBSan configure/build/CTest all passed; `report/demo-smoke.sh` passed; all Getting started
+and Compiler commands in `README.md` were run successfully; and the presentation commands produced
+the outputs recorded in `docs/STUDY-GUIDE.md` and `docs/DEMO-SCRIPT.md`. The first fresh-clone run
+exposed a real tooling issue: `scripts/self-review.py` required the ignored checksum sidecar even
+though a clone does not contain generated release artifacts. The root fix changed self-review to
+require the tracked package script instead; the fresh-clone self-review then passed.
+
+GitHub Actions run `40220486356` completed on October 25, 2026 with all jobs green:
+
+| Job | Result |
+|---|---|
+| `build-and-test (ubuntu-latest)` | passed |
+| `build-and-test (macos-latest)` | passed |
+| `build-and-test (windows-latest)` | passed |
+
+The Windows failure in the preceding runs was a MinGW `-Werror=maybe-uninitialized` warning through
+`std::variant` temporaries in `src/codegen/code_generator.cpp`. Typed `add_constant` overloads and an
+explicit integer conversion fixed the root cause without weakening warnings or tests. No CI matrix
+job was removed. Native macOS/Windows execution outside GitHub-hosted runners remains **not verified**
+in this Linux environment.
+
 ## Performance evidence
 
 Method: every reported benchmark timing is the median of five consecutive wall-clock
@@ -125,3 +149,4 @@ exactly `832040`.
 - Supply the official grading rubric and replace generic traceability rows.
 - Review the report and demo materials in the team's own words.
 - Decide whether the text `build -o` artifact satisfies the assignment or must become serialized bytecode.
+- Review the new study guide, exercises, oral-exam questions, and demo script in the student's own words.
