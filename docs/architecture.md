@@ -205,6 +205,13 @@ Every emitted instruction retains the AST source span.
 
 **Invariant:** every call target exists in the function table; jump targets are instruction indices;
 stack height is balanced at block and function boundaries. `tests/golden/*.disasm` verifies output.
+
+The command-line `build` operation serializes the module to a versioned little-endian `.kbc` file.
+The format begins with four magic bytes `KBC\0` and a 32-bit version, followed by tagged constants,
+function names and metadata, the global count, and opcode/operand pairs. `read_bytecode` bounds all
+counts and strings, checks truncation and trailing bytes, validates opcode/index/jump/function-entry
+references, and assigns synthetic spans to loaded instructions. `exec` does not parse source; it
+loads this validated module and uses the same VM as `run`.
 **Estimate:** 500–750 lines, 14–18 hours.
 
 ### 3.7 VM/runtime
@@ -233,11 +240,14 @@ and use end-to-end programs under `tests/programs/`.
 **Responsibility:** parse arguments, read a source file, run selected pipeline stages, render dumps,
 and map failures to exit codes. **Non-responsibility:** it does not contain language semantics.
 
-**Commands:** `run`, `build`, `check`, `tokens`, `ast`, `disasm`.
+**Commands:** `run`, `build`, `exec`, `check`, `tokens`, `ast`, `disasm`.
 
 **Flags:** `--trace`, `--max-errors N`, and `--color=auto|always|never`. `stdout` is program output
 or requested dump output; diagnostics and trace go to `stderr`. Exit codes are 0 success, 1 compile
 error, 2 usage error, 3 runtime error, and 4 internal error.
+
+Malformed input to `exec` is runtime error `R006` and exits 3; successful binary execution follows
+the same VM path as source `run`.
 
 **Estimate:** 220–320 lines, 5–7 hours.
 

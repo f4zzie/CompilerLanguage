@@ -48,7 +48,7 @@ language contract.
 - Arithmetic, comparison, equality, and short-circuit boolean operators.
 - `if/else`, `while`, blocks, functions, returns, and recursion.
 - Readable compile-time and runtime diagnostics with source line and caret.
-- `tokens`, `ast`, `disasm`, `check`, `build`, and `run` CLI commands.
+- `tokens`, `ast`, `disasm`, `check`, `build`, `exec`, and `run` CLI commands.
 - VM `--trace` mode for demonstrations.
 
 ### SHOULD — implemented
@@ -135,11 +135,14 @@ The CLI supports:
 ./build/linux-debug/kite ast examples/hello.kite
 ./build/linux-debug/kite disasm examples/hello.kite
 ./build/linux-debug/kite build examples/hello.kite -o build/hello.kbc
+./build/linux-debug/kite exec build/hello.kbc
 ```
 
 Diagnostics go to stderr. Program output goes to stdout. Exit codes are 0 for success, 1 for
-compile errors, 2 for CLI usage errors, 3 for runtime errors, and 4 for internal compiler errors.
-Trace output is sent to stderr so it cannot corrupt expected program output.
+compile errors, 2 for CLI usage errors, 3 for runtime errors or malformed bytecode files, and 4 for
+internal compiler errors. `build` writes a versioned binary `.kbc` module; `exec` loads and validates
+that module without needing the source file. Trace output is sent to stderr so it cannot corrupt
+expected program output.
 
 ## Testing and quality
 

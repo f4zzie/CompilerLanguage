@@ -3,6 +3,9 @@
 #include "common/source.hpp"
 
 #include <cstdint>
+#include <istream>
+#include <optional>
+#include <ostream>
 #include <string>
 #include <variant>
 #include <vector>
@@ -60,5 +63,9 @@ struct BytecodeModule {
 
 const char* opcode_name(OpCode opcode);
 std::string disassemble(const BytecodeModule& module);
+bool write_bytecode(std::ostream& output, const BytecodeModule& module, std::string& error);
+std::optional<BytecodeModule> read_bytecode(std::istream& input, std::string& error);
+bool write_bytecode_file(const std::string& path, const BytecodeModule& module, std::string& error);
+std::optional<BytecodeModule> read_bytecode_file(const std::string& path, std::string& error);
 
 }  // namespace kite

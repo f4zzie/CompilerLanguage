@@ -168,6 +168,11 @@ string index out of range, `R004` call-stack overflow, `R005` invalid `to_int`, 
 bytecode, and `R007` instruction limit exceeded. Usage errors exit 2; compile errors exit 1; successful
 execution exits 0.
 
+`kite build source.kite -o module.kbc` writes a versioned binary module containing the `KBC\0` magic,
+format version, constants, function metadata, globals, and instructions. `kite exec module.kbc`
+validates every count, tag, index, jump, function entry, and file boundary before executing it. A
+truncated, corrupt, unsupported, or trailing-data file is reported as `R006` and exits 3.
+
 ## 10. Compile-time errors
 
 `L001` illegal character, `L002` unterminated comment, `L003` unterminated string, `L004` invalid
