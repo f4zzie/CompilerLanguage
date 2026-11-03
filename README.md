@@ -1,5 +1,7 @@
 # 🪁 Kite — a small language and compiler built for learning
 
+[![CI](https://github.com/f4zzie/CompilerLanguage/actions/workflows/ci.yml/badge.svg)](https://github.com/f4zzie/CompilerLanguage/actions/workflows/ci.yml)
+
 Kite is a statically typed teaching language designed and implemented by a student compiler team.
 Kite source files use `.kite`, the compiler is written in conservative C++20, and programs are
 lowered into custom stack bytecode executed by a small virtual machine. The project emphasizes a
@@ -154,9 +156,9 @@ The test pyramid has five layers:
 4. Negative programs asserting diagnostic code, location, and message fragments.
 5. Optional lexer/parser crash-resistance fuzz tests after the MUST pipeline is stable.
 
-Every fixed bug requires a regression test. CI builds Debug/Release configurations with warnings as
-errors and runs CTest on Linux, macOS, and Windows. Sanitizers are enabled in the Linux ASan/UBSan
-preset where the compiler supports them.
+Every fixed bug requires a regression test. CI runs the complete CTest suite in Ubuntu Debug, Ubuntu
+ASan/UBSan, and Release jobs on Ubuntu, macOS, and Windows. Warnings remain errors in every build;
+the sanitizer job uses the Linux ASan/UBSan preset.
 
 ## Project structure
 

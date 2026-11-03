@@ -6,15 +6,31 @@ on:
 
 jobs:
   build-and-test:
+    name: ${{ matrix.name }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - name: Linux Debug
+            os: ubuntu-latest
+            preset: linux-debug
+          - name: Linux ASan/UBSan
+            os: ubuntu-latest
+            preset: linux-asan
+          - name: Release (Ubuntu)
+            os: ubuntu-latest
+            preset: release
+          - name: Release (macOS)
+            os: macos-latest
+            preset: release
+          - name: Release (Windows)
+            os: windows-latest
+            preset: release
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure
-        run: cmake --preset release
+        run: cmake --preset ${{ matrix.preset }}
       - name: Build
-        run: cmake --build --preset release
+        run: cmake --build --preset ${{ matrix.preset }}
       - name: Test
-        run: ctest --test-dir build/release --output-on-failure
+        run: ctest --test-dir build/${{ matrix.preset }} --output-on-failure
