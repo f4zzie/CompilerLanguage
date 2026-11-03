@@ -1,6 +1,6 @@
 # Kite implementation progress
 
-Current task: **Post-release verification, CI repair, and presentation preparation**
+Current task: **v1.0.1 hardening, bytecode files, truthful CI, and release verification**
 
 | Task | Status | Branch | Merge commit | Test counts |
 |---|---|---|---|---|
@@ -36,6 +36,11 @@ Current task: **Post-release verification, CI repair, and presentation preparati
 | Post-release verification | done | `fix/self-review-fresh-clone` | `79b0191` | fresh-clone Linux verification green; self-review no longer requires ignored artifacts |
 | CI repair | done | `fix/windows-gcc-warning` | `306898a` | GitHub Actions Ubuntu/macOS/Windows all green on run `40220486356` |
 | Presentation preparation | done | `docs/presentation-prep` | `0e6fe27` | study guide, exercises, oral exam, and demo script added |
+| Parser depth hardening | done | `fix/parser-depth-limit` | `082612c` | 61 unit cases; 8/8 Debug and ASan CTest; P004 deep-input fixtures |
+| Versioned bytecode files | done | `feat/bytecode-files` | `aea1fc6` | 61 unit cases; 8/8 Debug, Release, and ASan CTest; 14/14 round-trip/corrupt checks |
+| Truthful CI matrix | done | `chore/ci-matrix-truth` | `181c245` | Ubuntu Debug, Ubuntu ASan/UBSan, and Release Ubuntu/macOS/Windows jobs defined |
+| Current presentation docs | done | `docs/current-presentation-materials` | `6dfae9f` | 10 study steps, 6 scratch exercises, 54 oral questions, timed demo |
+| License status note | done | `docs/final-status-license-note` | `f9b1115` | placeholder explicitly listed under Needs a human |
 
 ## Decisions made
 
@@ -46,9 +51,9 @@ Current task: **Post-release verification, CI repair, and presentation preparati
 
 ## Blockers
 
-- None for the verified Linux release path or GitHub Actions matrix. Native macOS/Windows execution
-  outside GitHub-hosted runners and the official rubric remain unavailable in this environment and are
-  documented as **not verified** exceptions.
+- None for the verified Linux paths. Native macOS/Windows execution outside GitHub-hosted runners and
+  the official rubric remain unavailable in this environment and are documented as **not verified**
+  exceptions. The revised CI workflow awaits its post-push run.
 
 ## Release boundary
 

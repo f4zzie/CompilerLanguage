@@ -3,10 +3,10 @@
 ## Overall result
 
 The MUST compiler pipeline and all four planned SHOULD language features—floats, arrays, C-style
-`for`, and `|>`—are implemented. The repository is clean at the post-release verification boundary;
-the Debug, Release, and ASan/UBSan CTest suites are green, and GitHub Actions verifies Ubuntu,
-macOS, and Windows builds. STRETCH work (REPL, records,
-closures, modules, optimizer, and C backend) was not started.
+`for`, and `|>`—are implemented. Parser input is bounded at 200 levels by default with configurable
+`P004` recovery, and `build`/`exec` use validated versioned `.kbc` files. The Debug, Release, and
+ASan/UBSan CTest suites are green locally. STRETCH work (REPL, records, closures, modules, optimizer,
+and C backend) was not started.
 
 ## Task status
 
@@ -41,6 +41,11 @@ closures, modules, optimizer, and C backend) was not started.
 | T027 | done | f42a591 |
 | T028 | done | 6721fd8 |
 | T029 | done | f18d961 |
+| Parser depth hardening | done | 082612c |
+| Versioned bytecode files | done | aea1fc6 |
+| Truthful CI matrix | done | 181c245 |
+| Current presentation docs | done | 6dfae9f |
+| License status note | done | f9b1115 |
 
 ## SHOULD feature status
 
@@ -57,7 +62,6 @@ closures, modules, optimizer, and C backend) was not started.
 cmake --preset linux-debug
 cmake --build --preset linux-debug
 ctest --test-dir build/linux-debug --output-on-failure
-./scripts/test-all
 cmake --preset linux-asan
 cmake --build --preset linux-asan
 ctest --test-dir build/linux-asan --output-on-failure
@@ -65,17 +69,13 @@ cmake --preset release
 cmake --build --preset release
 ctest --test-dir build/release --output-on-failure
 python3 scripts/check-examples.py build/linux-debug/kite examples
-python3 scripts/run-corpus.py build/linux-debug/kite tests/programs
 python3 scripts/run-errors.py build/linux-debug/kite tests/errors
-./scripts/package-submission.sh
-python3 scripts/self-review.py
+python3 scripts/check-bytecode.py build/linux-debug/kite examples
 ```
 
-Observed on October 25, 2026: Debug CTest 7/7, Release CTest 7/7, and ASan/UBSan CTest 7/7 passed;
-each suite includes the unit tests, walking skeleton, fuzz smoke, examples corpus, and three golden
-tests. The automated negative corpus contains seven fixtures with exit-code and stderr assertions.
-The final package manifest check reported 300 archive entries. A clean extraction Debug build and
-CTest also passed, and `scripts/self-review.py` passed after the final documentation checks.
+Observed on November 3, 2026: Debug, Release, and ASan/UBSan CTest each passed 8/8. The Debug unit
+runner passed 61 cases and 202 assertions; the negative corpus passed 10/10; the examples corpus
+passed 12/12; and the bytecode checker passed 14/14, including truncated and corrupt files.
 
 ## Post-release verification
 
@@ -87,13 +87,17 @@ exposed a real tooling issue: `scripts/self-review.py` required the ignored chec
 though a clone does not contain generated release artifacts. The root fix changed self-review to
 require the tracked package script instead; the fresh-clone self-review then passed.
 
-GitHub Actions run `40220486356` completed on October 25, 2026 with all jobs green:
+The latest accessible GitHub Actions run before this matrix change was `40220486356`, completed on
+October 25, 2026 with all previous release-matrix jobs green:
 
 | Job | Result |
 |---|---|
-| `build-and-test (ubuntu-latest)` | passed |
-| `build-and-test (macos-latest)` | passed |
-| `build-and-test (windows-latest)` | passed |
+| previous Ubuntu release job | passed |
+| previous macOS release job | passed |
+| previous Windows release job | passed |
+
+The revised workflow now defines five jobs—Linux Debug, Linux ASan/UBSan, Release Ubuntu, Release
+macOS, and Release Windows. Its post-push results were not available when this status file was written.
 
 The Windows failure in the preceding runs was a MinGW `-Werror=maybe-uninitialized` warning through
 `std::variant` temporaries in `src/codegen/code_generator.cpp`. Typed `add_constant` overloads and an
@@ -101,8 +105,9 @@ explicit integer conversion fixed the root cause without weakening warnings or t
 job was removed. Native macOS/Windows execution outside GitHub-hosted runners remains **not verified**
 in this Linux environment.
 
-The post-release verification, CI repair, and presentation materials are released at the annotated
-`v1.0.1` tag. The original published `v1.0` tag remains immutable at its original commit.
+The post-release verification, CI repair, presentation materials, and hardening changes are prepared
+for the annotated `v1.0.1` tag. The original published `v1.0` tag remains immutable at its original
+commit.
 
 ## Performance evidence
 
@@ -134,14 +139,13 @@ exactly `832040`.
 3. Added `ArrayExpr`, `AssignmentExpr`, `MAKE_ARRAY`, and `INDEX` to complete the implementation of
    already-specified SHOULD syntax/runtime behavior.
 4. Added deterministic parser progress guards after fuzzing found a binary/NUL lexer hang.
-5. `build -o` currently writes deterministic disassembly text rather than a serialized executable
-   bytecode module; this is a documented limitation and should be reviewed before submission.
+5. `build -o` now writes a versioned binary `.kbc` module; `exec` validates and runs it independently
+   of the source file.
 
 ## Cuts and limitations
 
 - No REPL, records, closures, modules/imports, optimizer, C backend, or full debugger.
 - `--color` is parsed but rendering remains plain text.
-- The built module is in-memory; `build -o` is a disassembly artifact.
 - Runtime arrays support construction/indexing/length but not mutation.
 - The semantic checker has a compact builtin model rather than a fully generalized function-type system.
 
@@ -153,5 +157,4 @@ exactly `832040`.
 - Run the real CI workflow on GitHub.
 - Supply the official grading rubric and replace generic traceability rows.
 - Review the report and demo materials in the team's own words.
-- Decide whether the text `build -o` artifact satisfies the assignment or must become serialized bytecode.
 - Review the new study guide, exercises, oral-exam questions, and demo script in the student's own words.
