@@ -1,9 +1,9 @@
 # Kite 7–10 minute demonstration script
 
 This script is designed for a student who needs to explain the implementation, not merely run it.
-Run from the repository root. The timings below are real Linux measurements from October 26, 2026
-using the Debug build and a freshly rebuilt Release binary where noted. They are guidance, not a
-performance guarantee on another machine.
+Run from the repository root. The commands and output blocks below were checked against the current
+Linux Debug build on November 3, 2026; timings are guidance, not a performance guarantee on another
+machine.
 
 ## Before the audience arrives
 
@@ -79,27 +79,23 @@ CallExpr#2 callee=print
 Say: “The lexer preserves source positions. The parser turns the expression into a tree; Pratt
 precedence keeps the `+` expression inside the call.”
 
-## 2:15–2:50 — Show bytecode
+## 2:15–2:50 — Build and execute bytecode
 
-Command:
+Commands:
 
 ```sh
-./build/linux-debug/kite disasm examples/hello.kite
+./build/linux-debug/kite build examples/hello.kite -o /tmp/kite-demo.kbc
+./build/linux-debug/kite exec /tmp/kite-demo.kbc
 ```
 
-Observed time: **0.019274 s**. Output:
+Output:
 
 ```text
-0	CONSTANT	0
-1	CONSTANT	1
-2	ADD	0
-3	CALL	1
-4	POP	0
-5	HALT	0
+3
 ```
 
-Say: “The backend turns the AST into a deterministic stack program. Constants are pushed, `ADD`
-combines them, `CALL` invokes `print`, and `HALT` ends the synthetic main function.”
+Say: “The backend writes a versioned `KBC` module. `exec` validates and runs the file without reading
+the source; `disasm` remains available when I want the human-readable instruction list.”
 
 ## 2:50–3:40 — Trace the VM
 
@@ -212,11 +208,13 @@ Commands:
 ```sh
 ctest --test-dir build/linux-debug --output-on-failure
 python3 scripts/run-errors.py build/linux-debug/kite tests/errors
+python3 scripts/check-bytecode.py build/linux-debug/kite examples
 ```
 
-The verified result is **7/7 CTest tests passed** and **7/7 negative fixtures passed**. Mention that
-the same repository also has Release and Linux ASan/UBSan CTest evidence plus green GitHub Actions on
-Ubuntu, macOS, and Windows.
+The verified result is **8/8 CTest tests passed**, **10/10 negative fixtures passed**, and **14/14
+bytecode checks passed** (12 examples plus two corrupt-file checks). Mention that the same repository
+also has Release and Linux ASan/UBSan CTest evidence plus the latest accessible green GitHub Actions
+run on Ubuntu, macOS, and Windows.
 
 For the optional performance close, use the documented five-run median method:
 

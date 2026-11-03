@@ -7,8 +7,8 @@ cmake --preset linux-debug
 cmake --build --preset linux-debug
 ```
 
-The outputs below are captured from the Linux Debug build used for the post-release verification on
-October 26, 2026. File paths and source spans are therefore intentionally visible in the dumps.
+The outputs below were captured from the current Linux Debug build on November 3, 2026. File paths and
+source spans are therefore intentionally visible in the dumps.
 
 ## 1. Tokens: see the lexer output
 
@@ -54,25 +54,22 @@ This proves that recursive-descent parsing builds statements and Pratt parsing b
 binary expression with the intended precedence. Node IDs and spans come from `src/parser/parser.cpp`;
 the printable form is in `src/parser/ast_printer.cpp`.
 
-## 3. Bytecode: see the backend result
+## 3. Bytecode: build and execute a real module
 
 ```sh
-./build/linux-debug/kite disasm examples/hello.kite
+./build/linux-debug/kite build examples/hello.kite -o /tmp/hello.kbc
+./build/linux-debug/kite exec /tmp/hello.kbc
 ```
 
 Output:
 
 ```text
-0	CONSTANT	0
-1	CONSTANT	1
-2	ADD	0
-3	CALL	1
-4	POP	0
-5	HALT	0
+3
 ```
 
-The backend has lowered `1 + 2`, the `print` call, and the statement discard into stack-machine
-instructions. The opcode table is in `src/codegen/bytecode.hpp`; emission is in
+The first command writes a versioned binary with `KBC\0` magic; the second loads it without reading
+the source and produces the same output as `run`. Use `disasm` with the source when you want the
+human-readable instruction list. Serialization is in `src/codegen/bytecode.cpp`; emission is in
 `src/codegen/code_generator.cpp`.
 
 ## 4. VM trace: watch execution, not just output

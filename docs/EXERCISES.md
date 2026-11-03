@@ -11,7 +11,7 @@ discarded. Their smoke results were:
 | New binary operator `^` | integer XOR `5 ^ 3` printed `6` |
 | New keyword statement `say` | `hello from say` printed |
 | New compile-time error `T009` | exit `1` with the empty-array diagnostic |
-| New opcode `DUPLICATE` | CTest `7/7`; direct unit suite reported `58` cases |
+| New opcode `DUPLICATE` | CTest `8/8`; direct unit suite reported `61` cases |
 | Changed diagnostic wording | exit `1` with the revised T001 message |
 
 The examples below are teaching exercises, not changes to the released language. A student should
