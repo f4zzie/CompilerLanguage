@@ -6,13 +6,26 @@
 #include "parser/precedence.hpp"
 
 #include <memory>
+#include <cstddef>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace kite {
 
 class Parser {
  public:
+  struct Options {
+    std::size_t max_depth{200};
+  };
+
+  Parser() = default;
+  explicit Parser(Options options) : options_(options) {
+    if (options_.max_depth == 0) {
+      options_.max_depth = 1;
+    }
+  }
+
   std::unique_ptr<Program> parse(const std::vector<Token>& tokens, Diagnostics& diagnostics);
   ExprPtr parse_expression_for_test(const std::vector<Token>& tokens, Diagnostics& diagnostics);
 
@@ -35,6 +48,13 @@ class Parser {
   TypeAnnotation parse_type_annotation();
   Parameter parse_parameter();
   void synchronize_statement();
+  bool enter_depth(Span span);
+  void leave_depth();
+  Span skip_balanced(TokenKind open, TokenKind close);
+  void skip_expression_tail();
+  ExprPtr depth_error(Span span);
+  void record_expression_depth(const Expr& expression, std::size_t depth);
+  std::size_t expression_depth(const Expr& expression) const;
   bool check(TokenKind kind) const;
   bool match(TokenKind kind);
   const Token& current() const;
@@ -47,8 +67,11 @@ class Parser {
 
   const std::vector<Token>* tokens_{nullptr};
   Diagnostics* diagnostics_{nullptr};
+  Options options_;
   std::size_t current_index_{0};
   NodeId next_node_id_{1};
+  std::size_t parse_depth_{0};
+  std::unordered_map<NodeId, std::size_t> expression_depths_;
 };
 
 }  // namespace kite

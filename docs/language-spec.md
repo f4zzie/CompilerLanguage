@@ -81,6 +81,12 @@ The grammar is parsed with recursive descent for declarations/statements and Pra
 for expressions. The `|>` operator is represented by a dedicated `PipeExpr`; its right operand must
 be a function name, not an arbitrary expression. `x |> f` means `f(x)`.
 
+Implementations limit parser structural and expression nesting to 200 levels by default. The command
+line option `--max-depth N` changes this limit for a compilation. Exceeding it is a compile-time
+`P004 nesting too deep` diagnostic; the parser skips the oversized balanced construct without relying
+on call-stack recursion. This bound also limits the depth passed to semantic analysis, code generation,
+AST printing, and AST destruction.
+
 ## 4. Operator table
 
 Rows are ordered from low to high precedence and are directly usable as Pratt binding powers.
@@ -158,8 +164,9 @@ starts there.
 
 Runtime errors are written to stderr with a code, source span when available, and message. Exit code
 3 means a runtime error. `R001` is division/modulo by zero, `R002` integer overflow, `R003` array or
-string index out of range, `R004` call-stack overflow, `R005` invalid `to_int`, and `R006` malformed
-bytecode. Usage errors exit 2; compile errors exit 1; successful execution exits 0.
+string index out of range, `R004` call-stack overflow, `R005` invalid `to_int`, `R006` malformed
+bytecode, and `R007` instruction limit exceeded. Usage errors exit 2; compile errors exit 1; successful
+execution exits 0.
 
 ## 10. Compile-time errors
 
@@ -168,7 +175,7 @@ escape, `P001` unexpected token, `P002` expected token, `P003` invalid assignmen
 duplicate declaration, `S002` unresolved name, `S003` invalid forward reference, `T001` type
 mismatch, `T002` non-boolean condition, `T003` non-callable target, `T004` wrong argument count,
 `T005` argument type mismatch, `T006` return type mismatch, `T007` invalid operator operands,
-and `T008` missing return.
+`T008` missing return, and `P004` nesting too deep.
 
 ## 11. Feature tiers
 

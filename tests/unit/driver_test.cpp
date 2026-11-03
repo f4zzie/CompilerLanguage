@@ -26,3 +26,10 @@ TEST_CASE("cli accepts stage dump commands") {
   REQUIRE(result.options.has_value());
   CHECK(result.options->command == "tokens");
 }
+
+TEST_CASE("cli accepts a configurable parser depth") {
+  const char* arguments[] = {"kite", "check", "file.kite", "--max-depth", "17"};
+  const auto result = kite::parse_cli(5, const_cast<char**>(arguments));
+  REQUIRE(result.options.has_value());
+  CHECK(result.options->max_depth == 17);
+}

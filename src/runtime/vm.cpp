@@ -134,6 +134,7 @@ VmResult Vm::run(const BytecodeModule& module) {
                          std::vector<Value>(module.functions[0].local_count, UnitValue{})});
   std::ostream& trace = options_.trace_stream == nullptr ? std::cerr : *options_.trace_stream;
   std::ostream& output = options_.output_stream == nullptr ? std::cout : *options_.output_stream;
+  std::size_t instruction_count = 0;
 
   auto fail = [](std::string code, std::string message, Span span) {
     return VmResult{false, UnitValue{}, RuntimeError{std::move(code), std::move(message), std::move(span)}};
@@ -149,6 +150,9 @@ VmResult Vm::run(const BytecodeModule& module) {
   };
 
   while (!frames.empty()) {
+    if (instruction_count++ >= options_.max_instructions) {
+      return fail("R007", "instruction limit exceeded", Span::synthetic());
+    }
     Frame& frame = frames.back();
     if (frame.ip >= module.instructions.size()) {
       return fail("R006", "instruction pointer is outside bytecode", Span::synthetic());

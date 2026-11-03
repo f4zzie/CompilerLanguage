@@ -25,6 +25,7 @@ Warnings do not change the exit code; errors do.
 | P001 | `unexpected token <token>` | Token cannot begin the expected production. | `errors/unexpected-token.src` |
 | P002 | `expected <thing>` | Required delimiter or keyword is missing. | `errors/missing-semicolon.src` |
 | P003 | `invalid assignment target` | Assignment target is not a name or index. | `errors/invalid-assignment.src` |
+| P004 | `nesting too deep` | Parser nesting or expression depth exceeds `--max-depth` (default 200). | `errors/deep-parens.src`, `errors/deep-blocks.src`, `errors/deep-binary-chain.src` |
 | S001 | `duplicate declaration '<name>'` | Same-scope name redeclaration. | `errors/duplicate-name.src` |
 | S002 | `unresolved name '<name>'` | Name lookup fails. | `errors/unresolved-name.src` |
 | S003 | `invalid forward reference` | Local used before declaration. | `errors/local-forward-reference.src` |
@@ -47,6 +48,7 @@ Warnings do not change the exit code; errors do.
 | R004 | call stack overflow | 3 |
 | R005 | invalid integer input | 3 |
 | R006 | malformed bytecode module | 3 |
+| R007 | instruction limit exceeded | 3 |
 
 ## Recovery strategy
 
@@ -55,3 +57,9 @@ AST contract requires a child; otherwise it synchronizes at semicolon, closing b
 top-level declaration keyword. Semantic analysis substitutes `Error` types after a failed lookup or
 operator check so later statements can still be checked without cascades. At the configured cap,
 the collector stops adding errors and emits one final note stating that the limit was reached.
+
+The parser's structural and expression depth limit is configurable with `--max-depth N` and defaults
+to 200. When the limit is reached it skips the oversized balanced construct iteratively, emits `P004`,
+and returns a bounded error node so semantic analysis, code generation, AST printing, and AST cleanup
+remain within the same safe depth. The VM also accepts an instruction budget for tests and reports
+`R007` when execution exceeds it.

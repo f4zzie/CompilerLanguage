@@ -10,6 +10,7 @@ namespace kite {
 struct PipelineOptions {
   bool trace{false};
   std::size_t max_errors{50};
+  std::size_t max_depth{200};
 };
 
 struct PipelineResult {

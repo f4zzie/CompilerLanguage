@@ -11,6 +11,7 @@ struct CliOptions {
   std::string output_file;
   bool trace{false};
   std::size_t max_errors{50};
+  std::size_t max_depth{200};
   std::string color{"auto"};
   bool help{false};
 };

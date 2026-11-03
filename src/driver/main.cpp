@@ -31,7 +31,7 @@ Compilation compile_file(const kite::CliOptions& options, const std::string& sou
   kite::Diagnostics diagnostics(options.max_errors);
   kite::Lexer lexer;
   auto tokens = lexer.scan(options.file, source, diagnostics);
-  kite::Parser parser;
+  kite::Parser parser(kite::Parser::Options{options.max_depth});
   auto program = parser.parse(tokens, diagnostics);
   if (program != nullptr) {
     kite::SemanticAnalyzer analyzer;
