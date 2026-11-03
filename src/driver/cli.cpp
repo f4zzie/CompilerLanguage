@@ -25,6 +25,7 @@ CliParseResult parse_cli(int argc, char** argv) {
   options.command = argv[1];
   options.file = argv[2];
   const auto valid_command = options.command == "run" || options.command == "build" ||
+                             options.command == "exec" ||
                              options.command == "check" || options.command == "tokens" ||
                              options.command == "ast" || options.command == "disasm";
   if (!valid_command) {

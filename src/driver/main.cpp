@@ -63,6 +63,25 @@ int main(int argc, char** argv) {
   }
 
   const auto& options = *parsed.options;
+  if (options.command == "exec") {
+    std::string error;
+    const auto module = kite::read_bytecode_file(options.file, error);
+    if (!module.has_value()) {
+      std::cerr << "kite: R006 malformed bytecode module: " << error << '\n';
+      return 3;
+    }
+    kite::VmOptions vm_options;
+    vm_options.trace = options.trace;
+    vm_options.trace_stream = &std::cerr;
+    vm_options.output_stream = &std::cout;
+    kite::Vm vm(vm_options);
+    const auto result = vm.run(*module);
+    if (!result.success) {
+      std::cerr << "runtime[" << result.error->code << "]: " << result.error->message << '\n';
+      return 3;
+    }
+    return 0;
+  }
   std::ifstream input(options.file, std::ios::binary);
   if (!input) {
     return usage_error("cannot open source file: " + options.file);
@@ -99,12 +118,11 @@ int main(int argc, char** argv) {
     if (options.output_file.empty()) {
       return usage_error("build requires -o FILE");
     }
-    std::ofstream output(options.output_file, std::ios::binary);
-    if (!output) {
-      return usage_error("cannot write output file: " + options.output_file);
+    std::string error;
+    if (!kite::write_bytecode_file(options.output_file, compilation.module, error)) {
+      return usage_error("cannot write bytecode file: " + error);
     }
-    output << kite::disassemble(compilation.module);
-    return output.good() ? 0 : 4;
+    return 0;
   }
   if (options.command == "run") {
     kite::VmOptions vm_options;
