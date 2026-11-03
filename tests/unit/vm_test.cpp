@@ -60,3 +60,15 @@ TEST_CASE("vm trace is written to the trace stream") {
   REQUIRE(result.success);
   CHECK(trace.str().find("UNIT") != std::string::npos);
 }
+
+TEST_CASE("vm stops at the configured instruction limit") {
+  kite::BytecodeModule module;
+  module.instructions = {{kite::OpCode::Jump, 0, kite::Span::synthetic()}};
+  module.functions.push_back(kite::FunctionInfo{"__main", 0, 0, 0});
+  kite::VmOptions options;
+  options.max_instructions = 4;
+  const auto result = kite::Vm(options).run(module);
+  CHECK_FALSE(result.success);
+  REQUIRE(result.error.has_value());
+  CHECK(result.error->code == "R007");
+}

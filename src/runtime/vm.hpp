@@ -21,6 +21,7 @@ struct VmOptions {
   std::size_t max_stack{1024};
   std::ostream* trace_stream{nullptr};
   std::ostream* output_stream{nullptr};
+  std::size_t max_instructions{1'000'000};
 };
 
 struct VmResult {

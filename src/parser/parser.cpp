@@ -1,5 +1,6 @@
 #include "parser/parser.hpp"
 
+#include <algorithm>
 #include <utility>
 
 namespace kite {
@@ -9,6 +10,8 @@ std::unique_ptr<Program> Parser::parse(const std::vector<Token>& tokens, Diagnos
   diagnostics_ = &diagnostics;
   current_index_ = 0;
   next_node_id_ = 1;
+  parse_depth_ = 0;
+  expression_depths_.clear();
   auto program = std::make_unique<Program>();
   program->id = 0;
   if (!tokens.empty()) {
@@ -44,6 +47,8 @@ ExprPtr Parser::parse_expression_for_test(const std::vector<Token>& tokens,
   diagnostics_ = &diagnostics;
   current_index_ = 0;
   next_node_id_ = 1;
+  parse_depth_ = 0;
+  expression_depths_.clear();
   auto expression = parse_assignment_expression();
   if (!check(TokenKind::Eof) && !check(TokenKind::Semicolon)) {
     report("P001", "unexpected token " + std::string(token_kind_name(current().kind)), current().span);
@@ -52,6 +57,15 @@ ExprPtr Parser::parse_expression_for_test(const std::vector<Token>& tokens,
 }
 
 ExprPtr Parser::parse_assignment_expression() {
+  if (!enter_depth(current().span)) {
+    skip_expression_tail();
+    return depth_error(previous().span);
+  }
+  struct DepthExit {
+    Parser* parser;
+    ~DepthExit() { parser->leave_depth(); }
+  } depth_exit{this};
+
   auto left = parse_expression(static_cast<int>(Precedence::Pipe));
   if (!match(TokenKind::Equal)) {
     return left;
@@ -67,6 +81,8 @@ ExprPtr Parser::parse_assignment_expression() {
   assignment->span = Span{left->span.start, right->span.end};
   assignment->target = std::move(left);
   assignment->value = std::move(right);
+  record_expression_depth(*assignment,
+                          std::max(expression_depth(*assignment->target), expression_depth(*assignment->value)) + 1);
   (void)equal_span;
   return assignment;
 }
@@ -83,22 +99,36 @@ ExprPtr Parser::parse_expression(int minimum_precedence) {
     ++current_index_;
     if (operator_kind == TokenKind::Pipe) {
       const auto& function = consume(TokenKind::Identifier, "function name after |> ");
+      const auto candidate_depth = expression_depth(*left) + 1;
+      if (candidate_depth > options_.max_depth) {
+        report("P004", "nesting too deep", operator_span);
+        skip_expression_tail();
+        return left;
+      }
       auto pipe = std::make_unique<PipeExpr>();
       pipe->id = next_node_id_++;
       pipe->span = Span{left->span.start, function.span.end};
       pipe->value = std::move(left);
       pipe->function_name = function.lexeme;
+      record_expression_depth(*pipe, candidate_depth);
       left = std::move(pipe);
       continue;
     }
 
     auto right = parse_expression(operator_precedence + 1);
+    const auto candidate_depth = std::max(expression_depth(*left), expression_depth(*right)) + 1;
+    if (candidate_depth > options_.max_depth) {
+      report("P004", "nesting too deep", operator_span);
+      skip_expression_tail();
+      return left;
+    }
     auto binary = std::make_unique<BinaryExpr>();
     binary->id = next_node_id_++;
     binary->span = Span{left->span.start, right->span.end};
     binary->op = binary_operator(operator_kind);
     binary->left = std::move(left);
     binary->right = std::move(right);
+    record_expression_depth(*binary, candidate_depth);
     left = std::move(binary);
     (void)operator_span;
   }
@@ -108,11 +138,25 @@ ExprPtr Parser::parse_expression(int minimum_precedence) {
 ExprPtr Parser::parse_unary() {
   if (match(TokenKind::Minus) || match(TokenKind::Not)) {
     const auto operator_token = previous();
+    if (!enter_depth(operator_token.span)) {
+      skip_expression_tail();
+      return depth_error(operator_token.span);
+    }
+    struct DepthExit {
+      Parser* parser;
+      ~DepthExit() { parser->leave_depth(); }
+    } depth_exit{this};
     auto unary = std::make_unique<UnaryExpr>();
     unary->id = next_node_id_++;
     unary->op = operator_token.kind == TokenKind::Minus ? UnaryOperator::Negate : UnaryOperator::Not;
     unary->operand = parse_unary();
     unary->span = Span{operator_token.span.start, unary->operand->span.end};
+    const auto candidate_depth = expression_depth(*unary->operand) + 1;
+    if (candidate_depth > options_.max_depth) {
+      report("P004", "nesting too deep", operator_token.span);
+      return depth_error(operator_token.span);
+    }
+    record_expression_depth(*unary, candidate_depth);
     return unary;
   }
   return parse_postfix();
@@ -138,6 +182,15 @@ ExprPtr Parser::parse_postfix() {
       }
       const auto right_paren = consume(TokenKind::RightParen, "')'");
       call->span = Span{expression->span.start, right_paren.span.end};
+      std::size_t child_depth = expression_depth(*expression);
+      for (const auto& argument : call->arguments) {
+        child_depth = std::max(child_depth, expression_depth(*argument));
+      }
+      if (child_depth + 1 > options_.max_depth) {
+        report("P004", "nesting too deep", right_paren.span);
+        return depth_error(call->span);
+      }
+      record_expression_depth(*call, child_depth + 1);
       expression = std::move(call);
       continue;
     }
@@ -148,6 +201,13 @@ ExprPtr Parser::parse_postfix() {
       index->index = parse_assignment_expression();
       const auto right_bracket = consume(TokenKind::RightBracket, "']'");
       index->span = Span{index->object->span.start, right_bracket.span.end};
+      const auto candidate_depth = std::max(expression_depth(*index->object), expression_depth(*index->index)) + 1;
+      if (candidate_depth > options_.max_depth) {
+        report("P004", "nesting too deep", right_bracket.span);
+        skip_expression_tail();
+        return depth_error(index->span);
+      }
+      record_expression_depth(*index, candidate_depth);
       expression = std::move(index);
       continue;
     }
@@ -175,6 +235,7 @@ ExprPtr Parser::parse_primary() {
     } else {
       literal->kind = LiteralKind::Unit;
     }
+    record_expression_depth(*literal, 1);
     return literal;
   }
 
@@ -183,6 +244,7 @@ ExprPtr Parser::parse_primary() {
     name->id = next_node_id_++;
     name->span = token.span;
     name->name = token.lexeme;
+    record_expression_depth(*name, 1);
     return name;
   }
 
@@ -202,7 +264,8 @@ ExprPtr Parser::parse_primary() {
   error->id = next_node_id_++;
   error->kind = LiteralKind::Unit;
   error->text = "unit";
-  error->span = token.span;
+    error->span = token.span;
+    record_expression_depth(*error, 1);
   if (!check(TokenKind::Eof)) {
     ++current_index_;
   }
@@ -220,6 +283,15 @@ ExprPtr Parser::parse_array_literal() {
   }
   const auto right_bracket = consume(TokenKind::RightBracket, "']'");
   array->span = Span{left_bracket.span.start, right_bracket.span.end};
+  std::size_t child_depth = 0;
+  for (const auto& element : array->elements) {
+    child_depth = std::max(child_depth, expression_depth(*element));
+  }
+  if (child_depth + 1 > options_.max_depth) {
+    report("P004", "nesting too deep", right_bracket.span);
+    return depth_error(array->span);
+  }
+  record_expression_depth(*array, child_depth + 1);
   return array;
 }
 
@@ -267,6 +339,17 @@ StmtPtr Parser::parse_statement() {
 }
 
 StmtPtr Parser::parse_block() {
+  if (!enter_depth(current().span)) {
+    const auto span = skip_balanced(TokenKind::LeftBrace, TokenKind::RightBrace);
+    auto block = std::make_unique<BlockStmt>();
+    block->id = next_node_id_++;
+    block->span = span;
+    return block;
+  }
+  struct DepthExit {
+    Parser* parser;
+    ~DepthExit() { parser->leave_depth(); }
+  } depth_exit{this};
   const auto left_brace = consume(TokenKind::LeftBrace, "'{'");
   auto block = std::make_unique<BlockStmt>();
   block->id = next_node_id_++;
@@ -411,9 +494,22 @@ TypeAnnotation Parser::parse_type_annotation() {
   const auto base = current();
   ++current_index_;
   auto end = base.span.end;
+  std::size_t type_depth = 0;
+  bool depth_reported = false;
   while (match(TokenKind::LeftBracket)) {
     const auto right = consume(TokenKind::RightBracket, "']'");
-    type = Type{TypeKind::Array, std::make_shared<Type>(type)};
+    ++type_depth;
+    if (type_depth > options_.max_depth) {
+      if (!depth_reported) {
+        report("P004", "nesting too deep", right.span);
+        depth_reported = true;
+      }
+      type = Type::error();
+    } else if (type.kind == TypeKind::Error) {
+      type = Type::error();
+    } else {
+      type = Type{TypeKind::Array, std::make_shared<Type>(type)};
+    }
     end = right.span.end;
   }
   return TypeAnnotation{type, Span{start, end}};
@@ -436,6 +532,86 @@ void Parser::synchronize_statement() {
   if (check(TokenKind::Semicolon)) {
     ++current_index_;
   }
+}
+
+bool Parser::enter_depth(Span span) {
+  if (parse_depth_ >= options_.max_depth) {
+    report("P004", "nesting too deep", std::move(span));
+    return false;
+  }
+  ++parse_depth_;
+  return true;
+}
+
+void Parser::leave_depth() {
+  if (parse_depth_ != 0) {
+    --parse_depth_;
+  }
+}
+
+Span Parser::skip_balanced(TokenKind open, TokenKind close) {
+  const auto start = current().span.start;
+  std::size_t balance = 0;
+  Span end{start, start};
+  while (!check(TokenKind::Eof)) {
+    const auto token = current();
+    end = token.span;
+    if (token.kind == open) {
+      ++balance;
+    } else if (token.kind == close) {
+      if (balance == 0) {
+        break;
+      }
+      --balance;
+      ++current_index_;
+      if (balance == 0) {
+        break;
+      }
+      continue;
+    }
+    ++current_index_;
+  }
+  return Span{start, end.end};
+}
+
+void Parser::skip_expression_tail() {
+  std::size_t parentheses = 0;
+  std::size_t brackets = 0;
+  std::size_t braces = 0;
+  while (!check(TokenKind::Eof)) {
+    const auto kind = current().kind;
+    if (parentheses == 0 && brackets == 0 && braces == 0 &&
+        (kind == TokenKind::Semicolon || kind == TokenKind::RightParen ||
+         kind == TokenKind::RightBracket || kind == TokenKind::RightBrace || kind == TokenKind::Comma)) {
+      return;
+    }
+    if (kind == TokenKind::LeftParen) ++parentheses;
+    if (kind == TokenKind::LeftBracket) ++brackets;
+    if (kind == TokenKind::LeftBrace) ++braces;
+    if (kind == TokenKind::RightParen && parentheses != 0) --parentheses;
+    if (kind == TokenKind::RightBracket && brackets != 0) --brackets;
+    if (kind == TokenKind::RightBrace && braces != 0) --braces;
+    ++current_index_;
+  }
+}
+
+ExprPtr Parser::depth_error(Span span) {
+  auto error = std::make_unique<LiteralExpr>();
+  error->id = next_node_id_++;
+  error->kind = LiteralKind::Unit;
+  error->text = "unit";
+  error->span = std::move(span);
+  record_expression_depth(*error, 1);
+  return error;
+}
+
+void Parser::record_expression_depth(const Expr& expression, std::size_t depth) {
+  expression_depths_[expression.id] = depth;
+}
+
+std::size_t Parser::expression_depth(const Expr& expression) const {
+  const auto found = expression_depths_.find(expression.id);
+  return found == expression_depths_.end() ? 1 : found->second;
 }
 
 bool Parser::check(TokenKind kind) const {

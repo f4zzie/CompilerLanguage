@@ -13,7 +13,7 @@ PipelineResult Pipeline::compile(const std::string& file, const std::string& sou
                                  PipelineOptions options) const {
   Diagnostics diagnostics(options.max_errors);
   Lexer lexer;
-  Parser parser;
+  Parser parser(Parser::Options{options.max_depth});
   SemanticAnalyzer sema;
   CodeGenerator generator;
 

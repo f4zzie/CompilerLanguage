@@ -9,13 +9,14 @@ namespace kite {
 void print_help() {
   std::cout << "Kite compiler\n"
                "Usage: kite <command> <file.kite> [options]\n\n"
-               "Commands: run, build, check, tokens, ast, disasm\n"
-               "Options: --trace, --max-errors N, --color=auto|always|never, -o FILE\n";
+               "Commands: run, build, exec, check, tokens, ast, disasm\n"
+               "Options: --trace, --max-errors N, --max-depth N, "
+               "--color=auto|always|never, -o FILE\n";
 }
 
 CliParseResult parse_cli(int argc, char** argv) {
   if (argc == 1 || (argc == 2 && std::string_view(argv[1]) == "--help")) {
-    return CliParseResult{CliOptions{"", "", "", false, 50, "auto", true}, {}, 0};
+    return CliParseResult{CliOptions{"", "", "", false, 50, 200, "auto", true}, {}, 0};
   }
   if (argc < 3) {
     return CliParseResult{std::nullopt, "expected a command and a source file", 2};
@@ -42,6 +43,15 @@ CliParseResult parse_cli(int argc, char** argv) {
         return CliParseResult{std::nullopt, "--max-errors needs a positive number", 2};
       }
       options.max_errors = parsed;
+    } else if (argument == "--max-depth") {
+      if (index + 1 >= argc) return CliParseResult{std::nullopt, "--max-depth needs a number", 2};
+      const std::string_view value(argv[++index]);
+      std::size_t parsed = 0;
+      const auto result = std::from_chars(value.data(), value.data() + value.size(), parsed);
+      if (result.ec != std::errc{} || result.ptr != value.data() + value.size() || parsed == 0) {
+        return CliParseResult{std::nullopt, "--max-depth needs a positive number", 2};
+      }
+      options.max_depth = parsed;
     } else if (argument.starts_with("--color=")) {
       options.color = std::string(argument.substr(8));
       if (options.color != "auto" && options.color != "always" && options.color != "never") {
