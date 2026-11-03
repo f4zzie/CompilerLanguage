@@ -11,6 +11,18 @@ The first milestone is intentionally small: compile and run `print(1 + 2);`. Fro
 adds variables, control flow, functions, recursion, strings, diagnostics, and tests behind stable
 contracts.
 
+### A small Kite program
+
+```kite
+print(1 + 2);
+```
+
+```text
+3
+```
+
+Run it with `./build/linux-debug/kite run examples/hello.kite` after building the Debug preset.
+
 ---
 
 ## Contents

@@ -144,13 +144,13 @@ about an unimplemented feature, the answer says so rather than implying future w
     overflow and the arithmetic dispatch checks zero divisors, returning `R002` or `R001`. See the
     arithmetic cases in `src/runtime/vm.cpp`.
 
-40. **What does `build -o` produce today?** — A deterministic disassembly text artifact, not a
-    serialized executable bytecode module. This is an explicit limitation in `docs/FINAL-STATUS.md`.
+40. **What does `build -o` produce today?** — A versioned binary `.kbc` module with `KBC\0` magic,
+     constants, functions, globals, and code. The serializer is in `src/codegen/bytecode.cpp`.
 
 ## Testing, trade-offs, and next steps
 
-41. **What does CTest cover?** — Seven tests: unit tests, walking skeleton, fuzz smoke, examples,
-    and three golden dumps. `CMakeLists.txt` registers them.
+41. **What does CTest cover?** — Eight tests: unit tests, walking skeleton, structured full-pipeline
+     stress, examples, bytecode round trips, and three golden dumps. `CMakeLists.txt` registers them.
 
 42. **What does the negative corpus runner assert?** — It runs each fixture with `.expected` or
     `.stderr` and `.exitcode`, then checks exit status and a diagnostic fragment. See
@@ -159,8 +159,9 @@ about an unimplemented feature, the answer says so rather than implying future w
 43. **Why keep both unit and end-to-end tests?** — Unit tests isolate stage contracts; source fixtures
     prove the connected pipeline and user-visible diagnostics. The strategy is summarized in `README.md`.
 
-44. **What does the fuzz smoke test prove?** — It gives bounded crash/hang resistance for arbitrary
-    lexer/parser input; it is not a proof of semantic correctness. See `tests/fuzz/lexer_parser_fuzz.cpp`.
+44. **What does the fuzz smoke test prove?** — It runs structured deep/long, empty, malformed, huge-
+     literal, and recursion inputs through lexer, parser, sema, codegen, and a bounded VM. See
+     `tests/fuzz/lexer_parser_fuzz.cpp`.
 
 45. **What CI platforms are verified?** — The GitHub Actions run on October 25, 2026 passed Ubuntu,
     macOS, and Windows jobs after the MinGW warning fix. Local native macOS/Windows execution is not
@@ -174,18 +175,26 @@ about an unimplemented feature, the answer says so rather than implying future w
     overloads and an explicit integer cast in `src/codegen/code_generator.cpp`.
 
 48. **What are the main trade-offs of the project?** — The implementation favors a small, inspectable
-    compiler over generalized type/function machinery, optimizing passes, and a serialized module
-    format. Those choices reduce scope but limit performance and extensibility.
+     compiler over generalized type/function machinery, optimization passes, and a large runtime.
+     The binary format is deliberately simple and versioned rather than optimized.
 
 49. **What would you do next for reliability?** — Add permanent tests for every newly proposed
     language extension, run native platform builds locally or in a second CI workflow, and turn the
     package/self-review checks into a required release job.
 
-50. **What would you do next for the backend?** — Decide whether the assignment requires serialized
-    bytecode; if so, define a stable module format and loader before adding optimization.
+50. **What would you do next for the backend?** — Add format evolution tests and a disassembler for
+     loaded `.kbc` files before adding optimization. The current loader is in `src/codegen/bytecode.cpp`.
 
 51. **What would you do next for the language?** — Add array mutation only after specifying aliasing,
     bounds, and assignment semantics; then update AST, sema, bytecode, VM, and negative tests together.
 
 52. **What remains stretch work?** — REPL, records, closures, modules/imports, optimizer, C backend,
-    and a full debugger are not implemented. See the cuts list in `docs/FINAL-STATUS.md`.
+     and a full debugger are not implemented. See the cuts list in `docs/FINAL-STATUS.md`.
+
+53. **Why does `kite check` reject very deep input?** — The parser defaults to 200 structural or
+     expression levels, reports `P004`, and skips oversized balanced input iteratively. `--max-depth N`
+     changes the bound; see `src/parser/parser.cpp` and `docs/error-and-diagnostics.md`.
+
+54. **How are corrupt `.kbc` files handled?** — The loader checks magic, version, bounded counts,
+     tags, indexes, jumps, entries, truncation, and trailing bytes, then `exec` reports `R006` and
+     exits 3. See `src/codegen/bytecode.cpp` and `src/driver/main.cpp`.
