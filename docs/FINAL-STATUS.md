@@ -147,6 +147,8 @@ exactly `832040`.
 
 ## Needs a human
 
+- The `LICENSE` file is a placeholder in this public repository; a human must choose and add the
+  appropriate license before publication or submission.
 - Verify macOS and Windows/MSVC builds, PowerShell scripts, and `.bat` scripts.
 - Run the real CI workflow on GitHub.
 - Supply the official grading rubric and replace generic traceability rows.
